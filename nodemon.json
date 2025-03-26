@@ -1,0 +1,7 @@
+{
+    "verbose": true,
+    "watch": [
+        "."
+    ],
+    "ext": "js, mjs, cjs, json, mustache, html, css"
+}
