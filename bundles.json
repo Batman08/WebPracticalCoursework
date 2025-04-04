@@ -1,0 +1,24 @@
+{
+    "Bundles": [
+      {
+        "Name": "layout",
+        "CssFiles": [
+          "/bootstrap/dist/css/bootstrap.min.css"
+        ],
+        "JsFiles": [
+          "/bootstrap/dist/js/bootstrap.bundle.min.js"
+        ]
+      },
+
+      {
+        "Name": "index",
+        "CssFiles": [
+          "css/index.css"
+        ],
+        "JsFiles": [
+          "js/index.js"
+        ]
+      }
+    ]
+  }
+  
