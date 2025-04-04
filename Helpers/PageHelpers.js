@@ -55,8 +55,8 @@ class PageHelpers {
           res.render('layouts/layout', {
             pageTitle: data.pageTitle || 'My Site',
             content: content, // Inject the rendered content into the layout
-            Styles: this.GenerateAssetTags(data.BundleName, 'css'), // Allow page to pass CSS
-            Scripts: this.GenerateAssetTags(data.BundleName, 'js') // Allow page to pass JS
+            styles: this.GenerateAssetTags(data.bundleName, 'css'), // Allow page to pass CSS
+            scripts: this.GenerateAssetTags(data.bundleName, 'js') // Allow page to pass JS
           });
         });
       }

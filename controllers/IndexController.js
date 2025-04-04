@@ -1,5 +1,10 @@
+const PageHelpers = require("../Helpers/PageHelpers");
+
 exports.index = function (req, res) {
-    res.render('index');
+    PageHelpers.RenderView(res, 'index', {
+        pageTitle: 'Welcome to the Dance Booking System',
+        bundleName: 'index'
+      });
 };
 
 exports.test_request = function (req, res) {
