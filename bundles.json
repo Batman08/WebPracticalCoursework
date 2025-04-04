@@ -1,17 +1,17 @@
 {
     "Bundles": [
       {
-        "Name": "layout",
+        "Name": "b-layout",
         "CssFiles": [
-          "/bootstrap/dist/css/bootstrap.min.css"
+          "bootstrap/dist/css/bootstrap.min.css"
         ],
         "JsFiles": [
-          "/bootstrap/dist/js/bootstrap.bundle.min.js"
+          "bootstrap/dist/js/bootstrap.bundle.min.js"
         ]
       },
 
       {
-        "Name": "index",
+        "Name": "b-index",
         "CssFiles": [
           "css/index.css"
         ],

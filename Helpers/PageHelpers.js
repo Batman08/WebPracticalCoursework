@@ -45,21 +45,36 @@ class PageHelpers {
     }
 
     static RenderView(res, viewName, data = {}) {
-        // Render the main page (content)
+        //render the main page (content)
         res.render(viewName, data, (err, content) => {
-          if (err) {
-            return res.status(500).send('Error rendering view');
-          }
-      
-          // Now render the layout with the content injected into it
-          res.render('layouts/layout', {
-            pageTitle: data.pageTitle || 'My Site',
-            content: content, // Inject the rendered content into the layout
-            styles: this.GenerateAssetTags(data.bundleName, 'css'), // Allow page to pass CSS
-            scripts: this.GenerateAssetTags(data.bundleName, 'js') // Allow page to pass JS
-          });
+            if (err) {
+                res.status(500).send('Error rendering view');
+            }
+
+            const layoutBundleName = 'b-layout';
+            data.bundleName = `b-${data.bundleName}`;
+
+            //bind style  bundles
+            const styleBundles = [
+                this.GenerateAssetTags(layoutBundleName, 'css'),
+                this.GenerateAssetTags(data.bundleName, 'css')
+            ].join('\n');
+
+            // bind script bundles
+            const scriptBundles = [
+                this.GenerateAssetTags(layoutBundleName, 'js'),
+                this.GenerateAssetTags(data.bundleName, 'js')
+            ].join('\n');
+
+            //render the layout with the content injected into it
+            res.render('layouts/layout', {
+                pageTitle: data.pageTitle || 'My Site',
+                content: content,
+                styles: styleBundles,
+                scripts: scriptBundles
+            });
         });
-      }
+    }
 }
 
 module.exports = PageHelpers;
