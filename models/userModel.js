@@ -13,7 +13,7 @@ class UserDAO {
 
         bcrypt.hash(passwordHash, saltRounds).then((hash) => {
             var entry = {
-                user: username,
+                username: username,
                 password: hash,
             };
 
@@ -26,14 +26,23 @@ class UserDAO {
     }
 
     lookup(username) {
-        var result = this.db.find({ 'user': username });
-        if (result == null) {
-            return null;
-        }
-        else {
-            return result[0];
-        }
+        // var result = this.db.find({ 'user': username });
+        // if (result == null) {
+        //     return null;
+        // }
+        // else {
+        //     return result.entries[0];
+        // }
 
+        return new Promise((resolve, reject) => {
+            this.db.find({ 'username': username }, (err, entries) => {
+                if (err || entries.length === 0) {
+                    reject('User not found');
+                } else {
+                    resolve(entries[0]);
+                }
+            });
+        });
     }
 }
 const dao = new UserDAO("users.db");

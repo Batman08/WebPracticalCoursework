@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel");
+const PageHelpers = require("../Helpers/PageHelpers");
 
 // Generate JWT Token
 const generateToken = (username) => {
@@ -25,13 +26,52 @@ const registerUser = async (username, password) => {
     return userModel.create(username, hashedPassword);
 }
 
-// Login User
-const loginUser = async (username, password) => {
-    const user = await userModel.lookup(username);
-    if (!user) return null;
+//#region Login User
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    return isValidPassword ? res.cookie("jwt", generateToken(user.username)): res.render("anon/login");
+const handleUserLogin = async (req, res, next) => {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        PageHelpers.RenderView(res, 'anon/login', {
+            pageTitle: 'Login',
+            errorMessage: 'Username and password are required'
+        });
+        return;
+    }
+
+    const user = await IsValidUser(username);
+    if (!user) {
+        PageHelpers.RenderView(res, 'anon/login', {
+            pageTitle: 'Login',
+            errorMessage: 'User not found'
+        });
+    } else {
+        console.log("login user", user, "password", password);
+        
+        var isValidLogin = await IsValidLogin(password, user.password);
+        if (isValidLogin) {
+            res.cookie("jwt", generateToken(user.username));
+            next();
+        }
+        else {
+            PageHelpers.RenderView(res, 'anon/login', {
+                pageTitle: 'Login',
+                errorMessage: 'Invalid username and/or password'
+            });
+        }
+    }
 }
 
-module.exports = { authenticateToken, registerUser, loginUser };
+const IsValidUser = async (username) => {
+    const user = await userModel.lookup(username);
+    return user != null ? user : null;
+}
+
+const IsValidLogin = async (password, passwordHash) => {
+    const isValidPassword = await bcrypt.compare(password, passwordHash);
+    return isValidPassword;
+}
+
+//#endregion
+
+module.exports = { authenticateToken, registerUser, handleUserLogin };

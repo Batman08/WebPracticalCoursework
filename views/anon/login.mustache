@@ -1,0 +1,27 @@
+<div class="card">
+  <h3 class="card-header"><i class="fa-solid fa-right-to-bracket"></i> Log in</h3>
+  <div class="card-body">
+
+    {{#errorMessage}}
+        <div class="text-danger fw-bold"><i class="fa-solid fa-circle-exclamation"></i> {{errorMessage}}</div>
+    {{/errorMessage}}
+
+    <form method="post" role="/register">
+        <div class="mb-3">
+            {{user-name-error}}
+            <label for="inputUsername" class="form-label"><i class="fa-solid fa-user"></i> Username</label>
+            <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Username" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="inputPassword" class="form-label"><i class="fa-solid fa-lock"></i> Password</label>
+            <input type="password" class="form-control" id="inputPassword" name="password" aria-describedby="passwordHelp" placeholder="Password" minlength="8" required>
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary w-25"><i class="fa-solid fa-right-to-bracket"></i> Log in</button>
+        </div>
+    </form>
+    
+  </div>
+</div>
