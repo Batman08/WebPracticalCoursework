@@ -371,3 +371,4 @@ FodyWeavers.xsd
 /node_modules
 /package-lock.json
 /.env
+/users.db
