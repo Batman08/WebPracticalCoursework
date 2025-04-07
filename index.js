@@ -13,7 +13,7 @@ Helpers_SetupMustache();
 Helpers_ParsingMiddleware();
 Helpers_ServeStaticFiles();
 
-const router = require('./routes/IndexRoutes');
+const router = require('./routes/danceCourseRoutes');
 app.use('/', router);
 app.listen(3000, () => {
     console.log('Server listening on port: 3000');
