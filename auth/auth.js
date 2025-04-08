@@ -11,10 +11,10 @@ const generateToken = (username) => {
 // Verify Token
 const authenticateToken = (req, res, next) => {
     const token = req.cookies.jwt;
-    if (!token) return res.status(401).redirect("/anon/login");
+    if (!token) return res.status(401).redirect("/login");
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) return res.status(403).send("Invalid Token");
+        if (err) return res.status(403).redirect("/login");
         req.user = user;
         next();
     });
@@ -47,7 +47,7 @@ const handleUserLogin = async (req, res, next) => {
         });
     } else {
         console.log("login user", user, "password", password);
-        
+
         var isValidLogin = await IsValidLogin(password, user.password);
         if (isValidLogin) {
             res.cookie("jwt", generateToken(user.username));
@@ -63,8 +63,11 @@ const handleUserLogin = async (req, res, next) => {
 }
 
 const IsValidUser = async (username) => {
-    const user = await userModel.lookup(username);
-    return user != null ? user : null;
+    return userModel.lookup(username).then((user) => {
+        return user != null ? user : null;
+    }).catch((err) => {
+        return null;
+    });
 }
 
 const IsValidLogin = async (password, passwordHash) => {

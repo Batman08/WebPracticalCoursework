@@ -26,14 +26,6 @@ class UserDAO {
     }
 
     lookup(username) {
-        // var result = this.db.find({ 'user': username });
-        // if (result == null) {
-        //     return null;
-        // }
-        // else {
-        //     return result.entries[0];
-        // }
-
         return new Promise((resolve, reject) => {
             this.db.find({ 'username': username }, (err, entries) => {
                 if (err || entries.length === 0) {
