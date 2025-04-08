@@ -3,12 +3,12 @@ const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel");
 const PageHelpers = require("../Helpers/PageHelpers");
 
-// Generate JWT Token
+//#region Authenticate
+
 const generateToken = (username) => {
     return jwt.sign({ username: username }, process.env.JWT_SECRET, { expiresIn: "1h" });
 }
 
-// Verify Token
 const authenticateToken = (req, res, next) => {
     const token = req.cookies.jwt;
     if (!token) return res.status(401).redirect("/login");
@@ -20,13 +20,39 @@ const authenticateToken = (req, res, next) => {
     });
 }
 
-// Register User
+const isLoggedIn = (req, res, next) => {
+    const token = req.cookies.jwt;
+    if (!token) {
+        next();
+        return;
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            res.clearCookie("jwt")
+            next();
+            return;
+        }
+        else {
+            return res.redirect("/admin")
+        }
+    });
+}
+
+//#endregion
+
+
+//#region Register
+
 const registerUser = async (username, password) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     return userModel.create(username, hashedPassword);
 }
 
-//#region Login User
+//#endregion
+
+
+//#region Login
 
 const handleUserLogin = async (req, res, next) => {
     const { username, password } = req.body;
@@ -39,7 +65,7 @@ const handleUserLogin = async (req, res, next) => {
         return;
     }
 
-    const user = await IsValidUser(username);
+    const user = await isValidUser(username);
     if (!user) {
         PageHelpers.RenderView(res, 'anon/login', {
             pageTitle: 'Login',
@@ -48,8 +74,8 @@ const handleUserLogin = async (req, res, next) => {
     } else {
         console.log("login user", user, "password", password);
 
-        var isValidLogin = await IsValidLogin(password, user.password);
-        if (isValidLogin) {
+        var hasValidLogin = await isValidLogin(password, user.password);
+        if (hasValidLogin) {
             res.cookie("jwt", generateToken(user.username));
             next();
         }
@@ -62,7 +88,7 @@ const handleUserLogin = async (req, res, next) => {
     }
 }
 
-const IsValidUser = async (username) => {
+const isValidUser = async (username) => {
     return userModel.lookup(username).then((user) => {
         return user != null ? user : null;
     }).catch((err) => {
@@ -70,11 +96,11 @@ const IsValidUser = async (username) => {
     });
 }
 
-const IsValidLogin = async (password, passwordHash) => {
+const isValidLogin = async (password, passwordHash) => {
     const isValidPassword = await bcrypt.compare(password, passwordHash);
     return isValidPassword;
 }
 
 //#endregion
 
-module.exports = { authenticateToken, registerUser, handleUserLogin };
+module.exports = { authenticateToken, isLoggedIn, registerUser, handleUserLogin };

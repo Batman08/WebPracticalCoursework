@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/danceCourseController.js');
-const { handleUserLogin } = require('../auth/auth.js')
-const { authenticateToken } = require('../auth/auth.js')
+const auth = require('../auth/auth.js')
 
 router.get('/', controller.index);
-router.get('/register', controller.show_register_page);
+router.get('/register', auth.isLoggedIn, controller.show_register_page);
 router.post('/register', controller.post_new_user);
-router.get('/login', controller.show_login_page);
-router.post('/login', handleUserLogin, controller.handle_login);
-router.get('/admin', authenticateToken, controller.admin_dashboard_page);
+router.get('/login', auth.isLoggedIn, controller.show_login_page);
+router.post('/login', auth.handleUserLogin, controller.handle_login);
+router.get('/admin', auth.authenticateToken, controller.admin_dashboard_page);
 
 router.use(function (req, res) {
     res.status(404);
