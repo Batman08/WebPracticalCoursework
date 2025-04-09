@@ -16,7 +16,7 @@ exports.show_register_page = (req, res) => {
     });
 };
 
-exports.post_new_user = (req, res) => {
+exports.post_new_user = async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -24,14 +24,25 @@ exports.post_new_user = (req, res) => {
         return;
     }
 
-    const user = userDao.lookup(username);
-    if (user) {
-        res.status(400).send('User already exists');
-    } else {
+    const user = userDao.lookup(username).then((user) => {
+        if (user) {
+            PageHelpers.RenderView(res, 'anon/register', {
+                pageTitle: 'Register',
+                errorMessage: 'User already exists'
+            });
+        }
+    }).catch((err) => {
+        /* ToDo: might change how lookup function works */
+
+        //user not found in database, so create new user
         userDao.create(username, password);
         console.log("register user", user, "password", password);
         res.redirect('/login');
-    }
+
+        /* ToDo: log user in straight away? */
+    });
+    // 
+    
 }
 
 exports.show_login_page = (req, res) => {
@@ -41,7 +52,7 @@ exports.show_login_page = (req, res) => {
 };
 
 exports.handle_login = (req, res) => {
-   res.redirect('admin');
+    res.redirect('admin');
 };
 
 exports.admin_dashboard_page = (req, res) => {
