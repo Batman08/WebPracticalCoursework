@@ -50,7 +50,7 @@ exports.show_login_page = (req, res) => {
 };
 
 exports.handle_login = (req, res) => {
-    res.redirect('admin');
+    res.redirect('dashboard');
 };
 
 exports.handle_logout = (req, res) => {
@@ -58,8 +58,8 @@ exports.handle_logout = (req, res) => {
     res.clearCookie("jwt").status(200).redirect("/");
 };
 
-exports.admin_dashboard_page = (req, res) => {
-    PageHelpers.RenderView(res, req, 'admin', {
+exports.dashboard_page = (req, res) => {
+    PageHelpers.RenderView(res, req, 'dashboard', {
         pageTitle: 'Dashboard',
     });
 };

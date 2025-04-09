@@ -34,7 +34,7 @@ const isLoggedIn = (req, res, next) => {
             return;
         }
         else {
-            return res.redirect("/admin")
+            return res.redirect("/dashboard");
         }
     });
 }
