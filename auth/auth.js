@@ -58,7 +58,7 @@ const handleUserLogin = async (req, res, next) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        PageHelpers.RenderView(res, 'anon/login', {
+        PageHelpers.RenderView(res, req, 'anon/login', {
             pageTitle: 'Login',
             errorMessage: 'Username and password are required'
         });
@@ -67,7 +67,7 @@ const handleUserLogin = async (req, res, next) => {
 
     const user = await isValidUser(username);
     if (!user) {
-        PageHelpers.RenderView(res, 'anon/login', {
+        PageHelpers.RenderView(res, req, 'anon/login', {
             pageTitle: 'Login',
             errorMessage: 'User not found'
         });
@@ -80,7 +80,7 @@ const handleUserLogin = async (req, res, next) => {
             next();
         }
         else {
-            PageHelpers.RenderView(res, 'anon/login', {
+            PageHelpers.RenderView(res, req, 'anon/login', {
                 pageTitle: 'Login',
                 errorMessage: 'Invalid username and/or password'
             });

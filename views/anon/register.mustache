@@ -2,6 +2,10 @@
   <h3 class="card-header bg-primary text-white"><i class="fa-solid fa-user-plus"></i> Register</h3>
   <div class="card-body">
 
+    {{#errorMessage}}
+        <div class="text-danger fw-bold"><i class="fa-solid fa-circle-exclamation"></i> {{errorMessage}}</div>
+    {{/errorMessage}}
+    
     <form method="post" role="/register">
         <div class="mb-3">
             {{user-name-error}}

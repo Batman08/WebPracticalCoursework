@@ -9,6 +9,7 @@ router.post('/register', controller.post_new_user);
 router.get('/login', auth.isLoggedIn, controller.show_login_page);
 router.post('/login', auth.handleUserLogin, controller.handle_login);
 router.get('/admin', auth.authenticateToken, controller.admin_dashboard_page);
+router.post("/logout", controller.handle_logout);
 
 router.use(function (req, res) {
     res.status(404);

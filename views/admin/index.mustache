@@ -2,3 +2,15 @@
 <p>Explore and book dance courses with ease!</p>
 <a href="/courses">View Courses</a>
 <a href="/courses">View Bookings</a>
+
+
+{{#user}}
+        <div class="text-center">
+            <h3>Welcome {{username}}!</h3>
+        </div>
+{{/user}}   
+{{^user}}
+        <div class="text-center">
+            <h3>Welcome Guest!</h3>
+        </div>
+{{/user}}

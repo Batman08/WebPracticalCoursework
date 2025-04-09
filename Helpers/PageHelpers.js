@@ -1,13 +1,19 @@
 const path = require("path");
 const fs = require("fs");
+const jwt = require("jsonwebtoken");
 
 class PageHelpers {
     //#region RenderView
 
     static #rootDir = path.resolve(__dirname, "../");
     static #bundleConfig = JSON.parse(fs.readFileSync(path.join(this.#rootDir, "bundles.json"), "utf-8")).Bundles;
-    
-    static RenderView(res, viewName, data = {}) {
+
+    static RenderView(res, req, viewName, data = {}) {
+        const token = req.cookies.jwt;
+        if (token) jwt.verify(token, process.env.JWT_SECRET, (err, user) => { if (!err) req.user = user; });
+        
+        data.user = req.user || null; //set user data
+
         //render the main page (content)
         res.render(viewName, data, (err, content) => {
             if (err) {
@@ -34,16 +40,17 @@ class PageHelpers {
                 pageTitle: data.pageTitle || 'My Site',
                 content: content,
                 styles: styleBundles,
-                scripts: scriptBundles
+                scripts: scriptBundles,
+                user: data.user
             });
         });
     }
 
     static #GenerateAssetTags(bundleName, type) {
         const bundle = this.#bundleConfig.find(bundle => bundle.Name.toLowerCase() === bundleName.toLowerCase());
-        
+
         if (!bundle) return ""; //return empty if bundle not found
-        
+
         let assetTags = "";
         const files = type === "css" ? bundle.CssFiles || [] : bundle.JsFiles || [];
         files.forEach(file => {
