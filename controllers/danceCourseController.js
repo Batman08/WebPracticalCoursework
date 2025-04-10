@@ -11,8 +11,7 @@ exports.index = (req, res) => {
 
 exports.show_register_page = (req, res) => {
     PageHelpers.RenderView(res, req, 'anon/register', {
-        pageTitle: 'Register',
-        // bundleName: 'index'
+        pageTitle: 'Register'
     });
 };
 
@@ -40,6 +39,7 @@ exports.post_new_user = async (req, res) => {
     }
 }
 
+
 exports.show_login_page = (req, res) => {
     PageHelpers.RenderView(res, req, 'anon/login', {
         pageTitle: 'Login',
@@ -54,6 +54,7 @@ exports.handle_logout = (req, res) => {
     req.user = null;
     res.clearCookie("jwt").status(200).redirect("/");
 };
+
 
 exports.dashboard_page = (req, res) => {
     PageHelpers.RenderView(res, req, 'admin/dashboard', {
