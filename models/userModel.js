@@ -1,6 +1,4 @@
 const Datastore = require("gray-nedb");
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
 
 class UserDAO {
     constructor(dbFilePath) {
