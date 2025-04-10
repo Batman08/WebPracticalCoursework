@@ -39,6 +39,14 @@ const isLoggedIn = (req, res, next) => {
     });
 }
 
+const isValidUser = async (username) => {
+    return userModel.lookup(username).then((user) => {
+        return user != null ? user : null;
+    }).catch((err) => {
+        return null;
+    });
+}
+
 //#endregion
 
 
@@ -86,14 +94,6 @@ const handleUserLogin = async (req, res, next) => {
             });
         }
     }
-}
-
-const isValidUser = async (username) => {
-    return userModel.lookup(username).then((user) => {
-        return user != null ? user : null;
-    }).catch((err) => {
-        return null;
-    });
 }
 
 const isValidLogin = async (password, passwordHash) => {
