@@ -103,4 +103,4 @@ const isValidLogin = async (password, passwordHash) => {
 
 //#endregion
 
-module.exports = { authenticateToken, isLoggedIn, registerUser, handleUserLogin };
+module.exports = { authenticateToken, isLoggedIn, isValidUser, registerUser, handleUserLogin };

@@ -1,5 +1,4 @@
 const PageHelpers = require("../Helpers/PageHelpers");
-const userDao = require("../models/userModel.js");
 const auth = require('../auth/auth.js')
 
 exports.index = (req, res) => {
@@ -25,23 +24,20 @@ exports.post_new_user = async (req, res) => {
         return;
     }
 
-    const user = userDao.lookup(username).then((user) => {
-        if (user) {
-            PageHelpers.RenderView(res, req, 'anon/register', {
-                pageTitle: 'Register',
-                errorMessage: 'User already exists'
-            });
-        }
-    }).catch((err) => {
-        /* ToDo: might change how lookup function works */
-
-        //user not found in database, so create new user
+    const user = await auth.isValidUser(username);
+    if(!user){
         auth.registerUser(username, password);
-        console.log("register user", user, "password", password);
         res.redirect('/login');
 
         /* ToDo: log user in straight away? */
-    });
+    }
+    else{
+        console.log("test!!!!!!!!!!!!");
+        PageHelpers.RenderView(res, req, 'anon/register', {
+            pageTitle: 'Register',
+            errorMessage: 'User already exists'
+        });        
+    }
 }
 
 exports.show_login_page = (req, res) => {
