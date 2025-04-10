@@ -1,5 +1,6 @@
 const PageHelpers = require("../Helpers/PageHelpers");
 const userDao = require("../models/userModel.js");
+const auth = require('../auth/auth.js')
 
 exports.index = (req, res) => {
     PageHelpers.RenderView(res, req, 'index', {
@@ -35,7 +36,7 @@ exports.post_new_user = async (req, res) => {
         /* ToDo: might change how lookup function works */
 
         //user not found in database, so create new user
-        userDao.create(username, password);
+        auth.registerUser(username, password);
         console.log("register user", user, "password", password);
         res.redirect('/login');
 
@@ -50,7 +51,7 @@ exports.show_login_page = (req, res) => {
 };
 
 exports.handle_login = (req, res) => {
-    res.redirect('dashboard');
+    res.redirect('admin/dashboard');
 };
 
 exports.handle_logout = (req, res) => {
@@ -59,7 +60,7 @@ exports.handle_logout = (req, res) => {
 };
 
 exports.dashboard_page = (req, res) => {
-    PageHelpers.RenderView(res, req, 'dashboard', {
+    PageHelpers.RenderView(res, req, 'admin/dashboard', {
         pageTitle: 'Dashboard',
     });
 };

@@ -1,0 +1,66 @@
+{{#user}}
+
+    <h1 class="text-center mb-5">Dance Course Booking Dashboard</h1>
+    
+    <h3 class="text-muted">Welcome, {{username}}</h3>
+
+    <div class="p-3 bg-info bg-opacity-10 border border-info border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm">
+        <i class="fa-solid fa-circle-info"></i> Manage courses, classes, participants, and users efficiently through the system.
+    </div>
+
+    <div id="divContainer" class="pt-4">
+      <div class="row g-4">
+
+            <!-- Manage Courses & Classes -->
+            <div class="col-md-6 col-lg-4">
+              <div class="card dash-tile shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-start gap-3">
+                  <div class="icon-box bg-primary text-white rounded-circle d-flex justify-content-center align-items-center">
+                    <i class="fas fa-calendar-alt"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-1">Manage Courses & Classes</h5>
+                    <p class="card-text text-muted mb-0">Add, update or remove class/course info.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Manage Organisers -->
+            <div class="col-md-6 col-lg-4">
+              <div class="card dash-tile shadow-sm border-0 h-100">
+                <div class="card-body d-flex align-items-start gap-3">
+                  <div class="icon-box bg-success text-white rounded-circle d-flex justify-content-center align-items-center">
+                    <i class="fas fa-user-cog"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-1">Manage Organisers</h5>
+                    <p class="card-text text-muted mb-0">Add or remove organisers and control access.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+    </div>
+
+{{/user}}   
+
+<style>
+    .icon-box {
+      width: 48px;
+      height: 48px;
+      font-size: 1.5rem;
+      flex-shrink: 0; /* Prevent shrinking */
+    }
+
+    .dash-tile {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .dash-tile:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+    }
+</style>

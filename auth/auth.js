@@ -34,7 +34,7 @@ const isLoggedIn = (req, res, next) => {
             return;
         }
         else {
-            return res.redirect("/dashboard");
+            return res.redirect("/admin/dashboard");
         }
     });
 }
@@ -46,7 +46,7 @@ const isLoggedIn = (req, res, next) => {
 
 const registerUser = async (username, password) => {
     const hashedPassword = await bcrypt.hash(password, 10);
-    return userModel.create(username, hashedPassword);
+    userModel.create(username, hashedPassword);
 }
 
 //#endregion

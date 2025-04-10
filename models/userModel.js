@@ -8,20 +8,33 @@ class UserDAO {
         else this.db = new Datastore(); //in memory
     }
 
+    // create(username, passwordHash) {
+    //     const that = this;
+
+    //     bcrypt.hash(passwordHash, saltRounds).then((hash) => {
+    //         var entry = {
+    //             username: username,
+    //             password: hash,
+    //         };
+
+    //         that.db.insert(entry, (err) => {
+    //             if (err) {
+    //                 console.log("Can't insert user: ", username);
+    //             }
+    //         });
+    //     });
+    // }
+
     create(username, passwordHash) {
-        const that = this;
+        var entry = {
+            username: username,
+            password: passwordHash,
+        };
 
-        bcrypt.hash(passwordHash, saltRounds).then((hash) => {
-            var entry = {
-                username: username,
-                password: hash,
-            };
-
-            that.db.insert(entry, (err) => {
-                if (err) {
-                    console.log("Can't insert user: ", username);
-                }
-            });
+        this.db.insert(entry, (err) => {
+            if (err) {
+                console.log("Can't insert user: ", username);
+            }
         });
     }
 
