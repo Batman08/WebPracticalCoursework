@@ -12,6 +12,8 @@ class UserDAO {
         var entry = {
             username: username,
             password: passwordHash,
+            role: "Admin Organiser",
+            createdDateTime: new Date()
         };
 
         this.db.insert(entry, (err) => {
