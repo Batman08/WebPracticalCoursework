@@ -11,6 +11,7 @@ router.post('/login', auth.handleUserLogin, controller.handle_login);
 router.get('/admin/dashboard', auth.authenticateToken, controller.admin_dashboard_page);
 router.get('/admin/dashboard/managecourses', auth.authenticateToken, controller.admin_manage_courses_page);
 router.post('/admin/dashboard/managecourses', auth.authenticateToken, controller.post_admin_create_course);
+router.get('/admin/dashboard/managecourses/course/:danceCourseId', auth.authenticateToken, controller.admin_manage_course_page);
 router.post("/logout", controller.handle_logout);
 
 router.use(function (req, res) {

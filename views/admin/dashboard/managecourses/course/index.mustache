@@ -1,10 +1,49 @@
-<h1 class="text-center mb-5"><i class="fas fa-calendar-alt text-primary"></i> Manage Courses & Classes</h1>
+<h1 class="text-center mb-5"><i class="fa-solid fa-chalkboard-user text-primary"></i> Manage Course & Classes</h1>
 
-<div class="text-end mb-3">
-    <button class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateCourseModal"><i class="fa-solid fa-plus"></i> Create Course</button>
-</div>
+{{#danceCourse}}
+  <div class="row pb-4">
+      <h3 class="fw-bold pb-4"><i class="fas fa-calendar-alt"></i> Dance Course Details</h3>
+
+      <div class="col-md-12 mx-auto">
+          <div class="card dash-tiled shadow-sm h-100">
+            <div class="card-body d-dflex align-items-start gap-3">
+
+              <div class="row mb-2">
+                  <div class="col-md-3 text-start ps-sm-2">
+                      <label class="col-form-label fw-bold ps-1 ps-md-3">Title&nbsp;:</label>
+                  </div>
+                  <div class="col-md-9">
+                      <input type="text" class="form-control pe-none" value="{{title}}" disabled="">
+                  </div>
+              </div>
+
+              <div class="row mb-3">
+                  <div class="col-md-3 text-start ps-sm-2">
+                      <label class="col-form-label fw-bold ps-1 ps-md-3">Description&nbsp;:</label>
+                  </div>
+                  <div class="col-md-9">
+                      <input type="text" class="form-control pe-none" value="{{description}}" disabled="">
+                  </div>
+              </div>
+
+              <div class="text-end">
+                  <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateCourseModal"><i class="fa-solid fa-pen-to-square"></i> Edit Course Details</button>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+{{/danceCourse}}
+
+<hr/>
 
 <div id="divContainer" class="pt-4">
+  <h3 class="fw-bold pb-4"><i class="fa-solid fa-chalkboard-user"></i> Dance Classes</h3>
+
+  <div class="text-end mb-3">
+      <button class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateCourseModal"><i class="fa-solid fa-plus"></i> Create Class</button>
+  </div>
+
 {{#successMessage}}
   <div class="p-3 bg-success bg-opacity-10 border border-success border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
       <i class="fa-solid fa-check"></i> {{successMessage}}
@@ -19,14 +58,14 @@
 
 {{^danceCourses}}
   <div class="p-3 bg-info bg-opacity-10 border border-info border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm">
-      <i class="fa-solid fa-ban"></i> No courses/classes available to manage
+      <i class="fa-solid fa-ban"></i> No classes available
   </div>
 {{/danceCourses}}
 
 <div class="row g-4">
   {{#danceCourses}}
     <div class="col-md-6 col-lg-4">
-      <a href="/admin/dashboard/managecourses/course/{{_id}}" class="text-decoration-none text-dark"> 
+      <a href="/admin/dashboard/managecourses/{{_id}}" class="text-decoration-none text-dark"> 
         <div class="card dash-tile shadow-sm border-0 h-100">
           <div class="card-body d-flex align-items-start gap-3">
             <div>
@@ -38,7 +77,7 @@
       </a>
     </div>
   {{/danceCourses}}
-<div class="row g-4">
+</div>
 
 </div>
 
@@ -74,6 +113,3 @@
     </div>
   </div>
 </div>
-
-
-<!-- <i class="fa-solid fa-chalkboard-user"></i> -->

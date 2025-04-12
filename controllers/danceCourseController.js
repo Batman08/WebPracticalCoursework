@@ -114,4 +114,11 @@ exports.post_admin_create_course = (req, res) => {
     });
 };
 
+exports.admin_manage_course_page = async (req, res) => {
+    PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+        pageTitle: 'Manage Course',
+        danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId)
+    });
+};
+
 //#endregion
