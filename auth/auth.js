@@ -5,8 +5,14 @@ const PageHelpers = require("../Helpers/PageHelpers");
 
 //#region Authenticate
 
-const generateToken = (username) => {
-    return jwt.sign({ username: username }, process.env.JWT_SECRET, { expiresIn: "1h" });
+const generateToken = (user) => {
+    const userData = {
+        userId: user._id,
+        username: user.username,
+        role: user.role
+    };
+
+    return jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: "1h" });
 }
 
 const authenticateToken = (req, res, next) => {
@@ -84,7 +90,7 @@ const handleUserLogin = async (req, res, next) => {
 
         var hasValidLogin = await isValidLogin(password, user.password);
         if (hasValidLogin) {
-            res.cookie("jwt", generateToken(user.username));
+            res.cookie("jwt", generateToken(user));
             next();
         }
         else {
