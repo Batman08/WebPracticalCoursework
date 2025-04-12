@@ -8,7 +8,9 @@ router.get('/register', auth.isLoggedIn, controller.show_register_page);
 router.post('/register', controller.post_new_user);
 router.get('/login', auth.isLoggedIn, controller.show_login_page);
 router.post('/login', auth.handleUserLogin, controller.handle_login);
-router.get('/admin/dashboard', auth.authenticateToken, controller.dashboard_page);
+router.get('/admin/dashboard', auth.authenticateToken, controller.admin_dashboard_page);
+router.get('/admin/dashboard/managecourses', auth.authenticateToken, controller.admin_manage_courses_page);
+router.post('/admin/dashboard/managecourses', auth.authenticateToken, controller.post_admin_create_course);
 router.post("/logout", controller.handle_logout);
 
 router.use(function (req, res) {

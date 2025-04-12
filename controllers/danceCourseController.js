@@ -1,13 +1,22 @@
 const PageHelpers = require("../Helpers/PageHelpers");
 const auth = require('../auth/auth.js')
+const danceCourseModel = require('../models/danceCourseModel.js');
+
+//#region Index
 
 exports.index = (req, res) => {
+    // console.log(dataTime.toLocaleString());
+
     PageHelpers.RenderView(res, req, 'index', {
         pageTitle: 'Welcome to the Dance Booking System',
         bundleName: 'index'
     });
 };
 
+//endregion
+
+
+//#region Register
 
 exports.show_register_page = (req, res) => {
     PageHelpers.RenderView(res, req, 'anon/register', {
@@ -24,21 +33,24 @@ exports.post_new_user = async (req, res) => {
     }
 
     const user = await auth.isValidUser(username);
-    if(!user){
+    if (!user) {
         auth.registerUser(username, password);
         res.redirect('/login');
 
         /* ToDo: log user in straight away? */
     }
-    else{
-        console.log("test!!!!!!!!!!!!");
+    else {
         PageHelpers.RenderView(res, req, 'anon/register', {
             pageTitle: 'Register',
             errorMessage: 'User already exists'
-        });        
+        });
     }
 }
 
+//#endregion
+
+
+//#region Login
 
 exports.show_login_page = (req, res) => {
     PageHelpers.RenderView(res, req, 'anon/login', {
@@ -55,9 +67,51 @@ exports.handle_logout = (req, res) => {
     res.clearCookie("jwt").status(200).redirect("/");
 };
 
+//#endregion
 
-exports.dashboard_page = (req, res) => {
+
+//#region Admin
+
+exports.admin_dashboard_page = (req, res) => {
     PageHelpers.RenderView(res, req, 'admin/dashboard', {
         pageTitle: 'Dashboard',
     });
 };
+
+exports.admin_manage_courses_page = async (req, res) => {
+    PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses', {
+        pageTitle: 'Manage Courses',
+        danceCourses: await danceCourseModel.getAllDanceCourses()
+    });
+};
+
+exports.post_admin_create_course = (req, res) => {
+    const user = req.user;
+    const { title, description } = req.body;
+
+    if (!title || !description) {
+        PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses', {
+            pageTitle: 'Manage Courses',
+            danceCourses: danceCourseModel.getAllDanceCourses(),
+            successMessage: null,
+            errorMessage: 'Please fill in all course details'
+        });
+        return;
+    }
+
+    danceCourseModel.createDanceCourse(title, description, user.userId).then(async (courseId) => {
+        PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses', {
+            pageTitle: 'Manage Courses',
+            danceCourses: await danceCourseModel.getAllDanceCourses(),
+            successMessage: `Course "${title}" created successfully`
+        });
+    }).catch(async (err) => {
+        PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses', {
+            pageTitle: 'Manage Courses',
+            danceCourses: await danceCourseModel.getAllDanceCourses(),
+            errorMessage: `Failed to create course "${title}"`
+        });
+    });
+};
+
+//#endregion

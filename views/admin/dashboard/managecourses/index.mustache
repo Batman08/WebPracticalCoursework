@@ -4,52 +4,42 @@
     <button class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateCourseModal"><i class="fa-solid fa-plus"></i> Create Course</button>
 </div>
 
-<div class="p-3 bg-info bg-opacity-10 border border-info border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm">
-    <i class="fa-solid fa-ban"></i> No courses/classes available to manage
-</div>
 <div id="divContainer" class="pt-4">
-  <div class="row g-4">
+{{#successMessage}}
+  <div class="p-3 bg-success bg-opacity-10 border border-success border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
+      <i class="fa-solid fa-check"></i> {{successMessage}}
+  </div>
+{{/successMessage}}
 
-        <div class="col-md-6 col-lg-4">
-          <a href="/admin/dashboard/managecourses" class="text-decoration-none text-dark">
-            <div class="card dash-tile shadow-sm border-0 h-100">
-              <div class="card-body d-flex align-items-start gap-3">
-                <div>
-                  <h5 class="card-title mb-1">Course Title</h5>
-                  <p class="card-text text-muted mb-0">Course Description</p>
-                </div>
-              </div>
+{{#errorMessage}}
+  <div class="p-3 bg-danger bg-opacity-10 border border-danger border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
+      <i class="fa-solid fa-xmark"></i> {{errorMessage}}
+  </div>
+{{/errorMessage}}
+
+{{^danceCourses}}
+  <div class="p-3 bg-info bg-opacity-10 border border-info border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm">
+      <i class="fa-solid fa-ban"></i> No courses/classes available to manage
+  </div>
+{{/danceCourses}}
+
+<div class="row g-4">
+  {{#danceCourses}}
+    <div class="col-md-6 col-lg-4">
+      <a href="/admin/dashboard/managecourses/{{_id}}" class="text-decoration-none text-dark"> 
+        <div class="card dash-tile shadow-sm border-0 h-100">
+          <div class="card-body d-flex align-items-start gap-3">
+            <div>
+              <h5 class="card-title mb-1">{{title}}</h5>
+              <p class="card-text text-muted mb-0">{{description}}</p>
             </div>
-          </a>
+          </div>
         </div>
-
-        <div class="col-md-6 col-lg-4">
-          <a href="/admin/dashboard/managecourses" class="text-decoration-none text-dark">
-            <div class="card dash-tile shadow-sm border-0 h-100">
-              <div class="card-body d-flex align-items-start gap-3">
-                <div>
-                  <h5 class="card-title mb-1">Course Title</h5>
-                  <p class="card-text text-muted mb-0">Course Description</p>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="col-md-6 col-lg-4">
-          <a href="/admin/dashboard/managecourses" class="text-decoration-none text-dark">
-            <div class="card dash-tile shadow-sm border-0 h-100">
-              <div class="card-body d-flex align-items-start gap-3">
-                <div>
-                  <h5 class="card-title mb-1">Course Title</h5>
-                  <p class="card-text text-muted mb-0">Course Description</p>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-
+      </a>
     </div>
+  {{/danceCourses}}
+<div class="row g-4">
+
 </div>
 
 
@@ -62,18 +52,18 @@
             <h1 class="modal-title fs-5" id="createCourseModalLabel"><i class="fa-solid fa-book-open"></i> Create Course</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form method="post" action="/admin/dashboard/managecourses/create">
+        <form method="post" action="/admin/dashboard/managecourses">
           <div class="modal-body">
             <!-- Title -->
             <div class="mb-3">
                 <label class="form-label fw-bold" for="inputTitle">Title&nbsp;:</label>
-                <input type="text" class="form-control" id="inputTitle" name="Title" placeholder="Course title" maxlength="256" required>
+                <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Course title" maxlength="256" required>
             </div>
 
             <!-- Description -->
             <div class="mb-3">
                 <label class="form-label fw-bold" for="inputDescription">Description&nbsp;:</label>
-                <input type="text" class="form-control" id="inputDescription" name="Description" placeholder="Course description" maxlength="256" required>
+                <input type="text" class="form-control" id="inputDescription" name="description" placeholder="Course description" maxlength="256" required>
             </div>
           </div>
           <div class="modal-footer bg-light">
