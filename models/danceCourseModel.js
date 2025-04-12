@@ -25,15 +25,6 @@ class DanceCourseDAO {
                 }
             });
         });
-
-        // this.db.insert(entry, (err, newItem) => {
-        //     if (!err) {
-        //         return newItem._id;
-        //     }
-        //     else {
-        //         return null;
-        //     }
-        // });
     };
 
     deleteDanceCourseById = (courseId) => {
@@ -53,15 +44,6 @@ class DanceCourseDAO {
                 .sort({ createdDateTime: -1 }) // Sort by createdDateTime in descending order (most recent first)
                 .exec((err, items) => err ? resolve([]) : resolve(items));
         });
-
-
-        // this.db.find({}, (err, items) => {
-        //     if (!err) {
-        //         return items;
-        //     } else {
-        //         return [];
-        //     }
-        // });
     };
 
     getDanceCourseById = (id) => {
