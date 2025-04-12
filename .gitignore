@@ -372,3 +372,4 @@ FodyWeavers.xsd
 /package-lock.json
 /.env
 /users.db
+/danceCourses.db
