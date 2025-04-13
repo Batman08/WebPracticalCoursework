@@ -93,7 +93,6 @@ exports.post_admin_create_course = (req, res) => {
         PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses', {
             pageTitle: 'Manage Courses',
             danceCourses: danceCourseModel.getAllDanceCourses(),
-            successMessage: null,
             errorMessage: 'Please fill in all course details'
         });
         return;
@@ -120,5 +119,60 @@ exports.admin_manage_course_page = async (req, res) => {
         danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId)
     });
 };
+
+exports.post_admin_update_course = async (req, res) => {
+    updateCourseDetails = () => {
+        const user = req.user;
+        const { title, description } = req.body;
+
+        if (!title || !description) {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Courses',
+                danceCourses: danceCourseModel.getAllDanceCourses(),
+                errorMessage: 'Please fill in all course details'
+            });
+            return;
+        }
+
+        danceCourseModel.updateDanceCourse(req.params.danceCourseId, title, description).then(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                successMessageUpdateCourse: `Course "${title}" updated successfully`
+            });
+        }).catch(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                errorMessageUpdateCourse: `Failed to update course "${title}"`
+            });
+        });
+
+        // PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+        //     pageTitle: 'Manage Course',
+        //     danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId)
+        // });
+    }
+
+    deleteCourse = () => { }
+
+    createClass = () => { }
+
+    switch (req.body.action) {
+        case 'update_course_details':
+            updateCourseDetails();
+            break;
+        case 'delete_course':
+            deleteCourse();
+            break;
+        case 'create_class':
+            createClass();
+            break;
+        default:
+            break;
+    }
+}
+
+
 
 //#endregion

@@ -27,6 +27,12 @@ class DanceCourseDAO {
         });
     };
 
+    updateDanceCourse = (courseId, title, description) => {
+        return new Promise((resolve, reject) => {
+            this.db.update({ _id: courseId }, { $set: { title: title, description: description } }, {}, (err, numUpdated) => err ? reject(err) : resolve(numUpdated));
+        });
+    }
+
     deleteDanceCourseById = (courseId) => {
         return new Promise((resolve, reject) => {
             this.db.remove({ _id: courseId }, {}, (err, numRemoved) => err ? reject(err) : resolve(numRemoved));
@@ -46,9 +52,9 @@ class DanceCourseDAO {
         });
     };
 
-    getDanceCourseById = (id) => {
+    getDanceCourseById = (danceCourseId) => {
         return new Promise((resolve, reject) => {
-            this.db.findOne({ _id: id }, (err, doc) => err ? reject(err) : resolve(doc));
+            this.db.findOne({ _id: danceCourseId }, (err, item) => err ? resolve(null) : resolve(item));
         });
     };
 
