@@ -1,0 +1,34 @@
+<!-- Edit Course Details Modal -->
+
+<div class="modal fade" id="divEditCourseDetailsModal" tabindex="-1" aria-labelledby="editCourseDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header bg-primary text-white" data-bs-theme="dark">
+            <h1 class="modal-title fs-5" id="editCourseDetailsModalLabel"><i class="fa-solid fa-pen-to-square"></i> Edit Course Details</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" action="/admin/dashboard/managecourses/course/{{_id}}">
+          <div class="modal-body">
+            <!-- Title -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputTitle">Title</label>
+                <input type="text" class="form-control" id="inputTitle" name="title" value="{{title}}" placeholder="Course title" maxlength="256" required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputDescription">Description</label>
+                <input type="text" class="form-control" id="inputDescription" name="description" value="{{description}}" placeholder="Course description" maxlength="256" required>
+            </div>
+
+            <!-- Action Type -->
+            <input type="hidden" name="action" value="update_course_details">
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-danger shadow-sm" data-bs-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancel</button>
+            <button type="submit" class="btn btn-success shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Update</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>

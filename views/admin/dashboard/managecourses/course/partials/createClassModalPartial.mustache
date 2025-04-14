@@ -1,0 +1,58 @@
+<!-- Create Class Modal -->
+
+<div class="modal modal-lg fade" id="divCreateClassModal" tabindex="-1" aria-labelledby="createClassModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header bg-dark text-white" data-bs-theme="dark">
+            <h1 class="modal-title fs-5" id="createClassModalLabel"><i class="fa-solid fa-chalkboard-user"></i> Create Class</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" action="/admin/dashboard/managecourses/course/{{_id}}">
+          <div class="modal-body">
+            <!-- Title -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputTitle">Title</label>
+                <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Class title" maxlength="256" required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputDescription">Description</label>
+                <input type="text" class="form-control" id="inputDescription" name="description" placeholder="Class description" maxlength="256" required>
+            </div>
+
+            <!-- Class Date & Time -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputClassDatetime">Date & Time</label>
+                <input type="datetime-local" class="form-control" id="inputClassDatetime" name="classDateTime" required>
+            </div>
+
+            <!-- Duration -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputDuration">Duration <span class="text-muted fw-light fst-italic">(mins)</span></label>
+                <input type="number" class="form-control" id="inputDuration" name="duration" min="0" placeholder="0" required>
+            </div>
+
+            <!-- Location -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputLocation">Location</label>
+                <input type="text" class="form-control" id="inputLocation" name="location" placeholder="Class location" maxlength="256" required>
+            </div>
+
+            <!-- Price -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputPrice">Price</label>
+                <input type="number" class="form-control" id="inputPrice" name="price" step="0.01" min="0" placeholder="0.00" required>
+            </div>
+
+            <!-- Action Type -->
+            <input type="hidden" name="action" value="create_class">
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-danger shadow-sm" data-bs-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancel</button>
+            <button type="submit" class="btn btn-success shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
