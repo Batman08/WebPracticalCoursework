@@ -4,21 +4,21 @@
   <div class="row pb-4">
       <h3 class="fw-bold pb-4"><i class="fas fa-calendar-alt"></i> Dance Course Details</h3>
 
-      {{#successMessageUpdateCourse}}
+      {{#successMessageDanceCourse}}
         <div class="p-3 bg-success bg-opacity-10 border border-success border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
-            <i class="fa-solid fa-check"></i> {{successMessageUpdateCourse}}
+            <i class="fa-solid fa-check"></i> {{successMessageDanceCourse}}
         </div>
-      {{/successMessageUpdateCourse}}
+      {{/successMessageDanceCourse}}
       
-      {{#errorMessageUpdateCourse}}
+      {{#errorMessageDanceCourse}}
         <div class="p-3 bg-danger bg-opacity-10 border border-danger border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
-            <i class="fa-solid fa-xmark"></i> {{errorMessageUpdateCourse}}
+            <i class="fa-solid fa-xmark"></i> {{errorMessageDanceCourse}}
         </div>
-      {{/errorMessageUpdateCourse}}
+      {{/errorMessageDanceCourse}}
 
       <div class="col-md-12 mx-auto">
           <div class="card dash-tiled shadow-sm h-100">
-            <div class="card-body d-dflex align-items-start gap-3">
+            <div class="card-body align-items-start gap-3">
 
               <div class="row mb-2">
                   <div class="col-md-3 text-start ps-sm-2">
@@ -49,47 +49,119 @@
 
 <hr/>
 
-<div id="divContainer" class="pt-4">
+<div id="divManageCourseContainer" class="pt-4">
   <h3 class="fw-bold pb-4"><i class="fa-solid fa-chalkboard-user"></i> Dance Classes</h3>
 
   <div class="text-end mb-3">
-      <button class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateCourseModal"><i class="fa-solid fa-plus"></i> Create Class</button>
+      <button class="btn btn-success shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateClassModal"><i class="fa-solid fa-plus"></i> Create Class</button>
   </div>
 
-{{#successMessagedUpdateCourse}}
-  <div class="p-3 bg-success bg-opacity-10 border border-success border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
-      <i class="fa-solid fa-check"></i> {{successMessadgeUpdateCourse}}
-  </div>
-{{/successMessagedUpdateCourse}}
-
-{{#errorMessage}}
-  <div class="p-3 bg-danger bg-opacity-10 border border-danger border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
-      <i class="fa-solid fa-xmark"></i> {{errorMessage}}
-  </div>
-{{/errorMessage}}
-
-{{^danceCourses}}
-  <div class="p-3 bg-info bg-opacity-10 border border-info border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm">
-      <i class="fa-solid fa-ban"></i> No classes available
-  </div>
-{{/danceCourses}}
-
-<div class="row g-4">
-  {{#danceCourses}}
-    <div class="col-md-6 col-lg-4">
-      <a href="/admin/dashboard/managecourses/{{_id}}" class="text-decoration-none text-dark"> 
-        <div class="card dash-tile shadow-sm border-0 h-100">
-          <div class="card-body d-flex align-items-start gap-3">
-            <div>
-              <h5 class="card-title mb-1">{{title}}</h5>
-              <p class="card-text text-muted mb-0">{{description}}</p>
+  {{#successMessageDanceClass}}
+    <div class="p-3 bg-success bg-opacity-10 border border-success border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
+        <i class="fa-solid fa-check"></i> {{successMessageDanceClass}}
+    </div>
+  {{/successMessageDanceClass}}
+  
+  {{#errorMessageDanceClass}}
+    <div class="p-3 bg-danger bg-opacity-10 border border-danger border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
+        <i class="fa-solid fa-xmark"></i> {{errorMessageDanceClass}}
+    </div>
+  {{/errorMessageDanceClass}}
+  
+  {{^danceClasses}}
+    <div class="p-3 bg-info bg-opacity-10 border border-info border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm">
+        <i class="fa-solid fa-ban"></i> No classes available
+    </div>
+  {{/danceClasses}}
+  
+  <div class="row g-4 pb-4">
+    {{#danceClasses}}
+    <!-- {{_id}} -->
+      <div class="col-md-12">
+          <div class="card shadow-sm h-100">
+            <div class="card-body align-items-start gap-3">
+                <div class="row mb-2">
+                    <div class="col-md-3 text-start ps-sm-2">
+                        <label class="col-form-label fw-bold ps-1 ps-md-3">Title&nbsp;:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control pe-none text-truncate" value="{{title}}" disabled>
+                    </div>
+                </div>
+  
+                <div class="row mb-2">
+                    <div class="col-md-3 text-start ps-sm-2">
+                        <label class="col-form-label fw-bold ps-1 ps-md-3">Description&nbsp;:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control pe-none text-truncate" value="{{description}}" disabled>
+                    </div>
+                </div>
+  
+                <div class="row mb-2">
+                    <div class="col-md-3 text-start ps-sm-2">
+                        <label class="col-form-label fw-bold ps-1 ps-md-3">Date & Time&nbsp;:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="datetime-local" class="form-control pe-none" value="{{classDateTime}}" disabled>
+                    </div>
+                </div>
+  
+                <div class="row mb-2">
+                    <div class="col-md-3 text-start ps-sm-2">
+                        <label class="col-form-label fw-bold ps-1 ps-md-3">Duration <span class="text-muted fw-light fst-italic">(mins)</span>&nbsp;:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="number" class="form-control pe-none" value="{{duration}}" disabled>
+                    </div>
+                </div>
+  
+                <div class="row mb-2">
+                    <div class="col-md-3 text-start ps-sm-2">
+                        <label class="col-form-label fw-bold ps-1 ps-md-3">Location&nbsp;:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control pe-none text-truncate" value="{{location}}" disabled>
+                    </div>
+                </div>
+  
+                <div class="row mb-3">
+                    <div class="col-md-3 text-start ps-sm-2">
+                        <label class="col-form-label fw-bold ps-1 ps-md-3">Price <span class="text-muted fw-light fst-italic">(£)&nbsp;:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="number" class="form-control pe-none" value="{{price}}" disabled>
+                    </div>
+                </div>
+  
+              <!-- <div>
+                <h5 class="card-title mb-1">{{title}}</h5>
+                <p class="card-text text-muted mb-0">{{description}}</p>
+              </div>
+              -->
+  
+                <div class="text-end mt-3">
+                    <button class="btn btn-secondary shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateClassModal"><i class="fa-solid fa-users-gear"></i> Manage Bookings</button>
+                    <button class="btn btn-primary shadow-sm" 
+                            data-btnEditClassDetails
+                            data-danceClassId="{{_id}}"
+                            data-title="{{title}}"
+                            data-description="{{description}}"
+                            data-classDateTime="{{classDateTime}}"
+                            data-duration="{{duration}}"
+                            data-location="{{location}}"
+                            data-price="{{price}}"><i class="fa-solid fa-pen-to-square"></i> Edit Class Details</button>
+                    <button class="btn btn-danger shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateClassModal"><i class="fa-solid fa-trash-can"></i> Remove Class</button>
+                </div>
             </div>
           </div>
-        </div>
-      </a>
-    </div>
-  {{/danceCourses}}
-</div>
+      </div>
+    {{/danceClasses}}
+  </div>
+
+{{#danceCourse}}  
+    {{>admin/dashboard/managecourses/course/editClassDetailsModalPartial}}
+{{/danceCourse}}
 
 </div>
 
@@ -131,4 +203,71 @@
   </div>
 </div>
 
+
+<!-- Create Class Modal -->
+
+<div class="modal modal-lg fade" id="divCreateClassModal" tabindex="-1" aria-labelledby="createClassModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header bg-dark text-white" data-bs-theme="dark">
+            <h1 class="modal-title fs-5" id="createClassModalLabel"><i class="fa-solid fa-chalkboard-user"></i> Create Class</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" action="/admin/dashboard/managecourses/course/{{_id}}">
+          <div class="modal-body">
+            <!-- Title -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputTitle">Title</label>
+                <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Class title" maxlength="256" required>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputDescription">Description</label>
+                <input type="text" class="form-control" id="inputDescription" name="description" placeholder="Class description" maxlength="256" required>
+            </div>
+
+            <!-- Class Date & Time -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputClassDatetime">Date & Time</label>
+                <input type="datetime-local" class="form-control" id="inputClassDatetime" name="classDateTime" required>
+            </div>
+
+            <!-- Duration -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputDuration">Duration <span class="text-muted fw-light fst-italic">(mins)</span></label>
+                <input type="number" class="form-control" id="inputDuration" name="duration" min="0" placeholder="0" required>
+            </div>
+
+            <!-- Location -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputLocation">Location</label>
+                <input type="text" class="form-control" id="inputLocation" name="location" placeholder="Class location" maxlength="256" required>
+            </div>
+
+            <!-- Price -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputPrice">Price</label>
+                <input type="number" class="form-control" id="inputPrice" name="price" step="0.01" min="0" placeholder="0.00" required>
+            </div>
+
+            <!-- Action Type -->
+            <input type="hidden" name="action" value="create_class">
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-danger shadow-sm" data-bs-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancel</button>
+            <button type="submit" class="btn btn-success shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
 {{/danceCourse}}
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    ManageCourse.Init();
+  });
+</script>

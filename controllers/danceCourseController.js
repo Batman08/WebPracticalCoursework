@@ -1,6 +1,7 @@
 const PageHelpers = require("../Helpers/PageHelpers");
 const auth = require('../auth/auth.js')
 const danceCourseModel = require('../models/danceCourseModel.js');
+const danceClassModel = require('../models/danceClassModel.js');
 
 //#region Index
 
@@ -116,20 +117,23 @@ exports.post_admin_create_course = (req, res) => {
 exports.admin_manage_course_page = async (req, res) => {
     PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
         pageTitle: 'Manage Course',
-        danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId)
+        bundleName: 'admin-manage-course',
+        danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+        danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId)
     });
 };
 
 exports.post_admin_update_course = async (req, res) => {
-    updateCourseDetails = () => {
-        const user = req.user;
+    updateCourseDetails = async () => {
         const { title, description } = req.body;
 
         if (!title || !description) {
             PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
-                pageTitle: 'Manage Courses',
-                danceCourses: danceCourseModel.getAllDanceCourses(),
-                errorMessage: 'Please fill in all course details'
+                pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
+                danceCourses: await danceCourseModel.getAllDanceCourses(),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                errorMessageDanceCourse: 'Please fill in all course details'
             });
             return;
         }
@@ -137,26 +141,90 @@ exports.post_admin_update_course = async (req, res) => {
         danceCourseModel.updateDanceCourse(req.params.danceCourseId, title, description).then(async () => {
             PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
                 pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
                 danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
-                successMessageUpdateCourse: `Course "${title}" updated successfully`
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                successMessageDanceCourse: `Course "${title}" updated successfully`
             });
         }).catch(async () => {
             PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
                 pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
                 danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
-                errorMessageUpdateCourse: `Failed to update course "${title}"`
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                errorMessageDanceCourse: `Failed to update course "${title}"`
             });
         });
-
-        // PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
-        //     pageTitle: 'Manage Course',
-        //     danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId)
-        // });
     }
 
     deleteCourse = () => { }
 
-    createClass = () => { }
+
+    createClass = async () => {
+        const user = req.user;
+        const { title, description, classDateTime, duration, location, price } = req.body;
+
+        if (!title || !description || !classDateTime || !location || !price || !duration) {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Courses',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                errorMessageDanceClass: 'Please fill in all course details'
+            });
+            return;
+        }
+
+        danceClassModel.createDanceClass(req.params.danceCourseId, user.userId, title, description, classDateTime, duration, location, price).then(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                successMessageDanceClass: `Class "${title}" created successfully`
+            });
+        }).catch(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                errorMessageDanceClass: `Failed to create class "${title}"`
+            });
+        });
+    }
+
+    updateClassDetails = async () => {
+        const { danceClassId, title, description, classDateTime, duration, location, price } = req.body;
+
+        if (!title || !description || !classDateTime || !location || !price || !duration) {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                errorMessageDanceClass: 'Please fill in all class details'
+            });
+            return;
+        }
+
+        danceClassModel.updateDanceClass(danceClassId, title, description, classDateTime, duration, location, price).then(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                successMessageDanceClass: `Class "${title}" updated successfully`
+            });
+        }).catch(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                errorMessageDanceClass: `Failed to update class "${title}"`
+            });
+        });
+    }
 
     switch (req.body.action) {
         case 'update_course_details':
@@ -167,6 +235,9 @@ exports.post_admin_update_course = async (req, res) => {
             break;
         case 'create_class':
             createClass();
+            break;
+        case 'update_class_details':
+            updateClassDetails();
             break;
         default:
             break;
