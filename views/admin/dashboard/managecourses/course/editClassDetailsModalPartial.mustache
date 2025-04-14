@@ -1,0 +1,76 @@
+<!-- Edit Class Details Modal -->
+
+<div class="modal modal-lg fade" id="divEditClassDetailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editClassDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header bg-primary text-white" data-bs-theme="dark">
+            <h1 class="modal-title fs-5" id="editClassDetailsModalLabel"><i class="fa-solid fa-pen-to-square"></i> Edit Class Details</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" action="/admin/dashboard/managecourses/course/{{_id}}">
+          <div class="modal-body">
+            <!-- Title -->
+
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputEditTitle">Title</label>
+                <input type="text" class="form-control" id="inputEditTitle" name="title" placeholder="Class title" maxlength="256" required>
+            </div>
+
+
+            <!-- Description -->
+
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputEditDescription">Description</label>
+                <input type="text" class="form-control" id="inputEditDescription" name="description" placeholder="Class description" maxlength="256" required>
+            </div>
+
+
+            <!-- Class Date & Time -->
+
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputEditClassDateTime">Date & Time</label>
+                <input type="datetime-local" class="form-control" id="inputEditClassDateTime" name="classDateTime" required>
+            </div>
+
+
+            <!-- Duration -->
+
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputEditDuration">Duration <span class="text-muted fw-light fst-italic">(mins)</span></label>
+                <input type="number" class="form-control" id="inputEditDuration" name="duration" min="0" placeholder="0" required>
+            </div>
+
+            
+            <!-- Location -->
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputEditLocation">Location</label>
+                <input type="text" class="form-control" id="inputEditLocation" name="location" placeholder="Class location" maxlength="256" required>
+            </div>
+
+
+            <!-- Price -->
+
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputEditPrice">Price <span class="text-muted fw-light fst-italic">(£)</label>
+                <input type="number" class="form-control" id="inputEditPrice" name="price" step="0.01" min="0" placeholder="0.00" required>
+            </div>
+
+            
+            <!-- Dance Class Id -->
+            
+            <input type="hidden" id="inputDanceClassId" name="danceClassId" value="">
+
+
+            <!-- Action Type -->
+            
+            <input type="hidden" name="action" value="update_class_details">
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-danger shadow-sm" data-bs-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancel</button>
+            <button type="submit" class="btn btn-success shadow-sm"><i class="fa-solid fa-floppy-disk"></i> Update</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>

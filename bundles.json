@@ -14,6 +14,14 @@
       },
 
       {
+        "Name": "b-admin-manage-course",
+        "CssFiles": [],
+        "JsFiles": [
+          "js/admin/manageCourse.js"
+        ]
+      },
+
+      {
         "Name": "b-index",
         "CssFiles": [
           "css/index.css"
