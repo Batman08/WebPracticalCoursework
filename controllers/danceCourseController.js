@@ -99,7 +99,7 @@ exports.post_booking = async (req, res) => {
         const bookingReference = generateBookingReference();
         danceClassBookingModel.createDanceClassBooking(danceClassId, userId, name, email, bookingReference).then(async (danceClassBookingId) => {
             let bookedClass = await danceClassModel.getDanceClassById(danceClassId)
-            if(bookedClass) bookedClass.classDateTime = CommonHelpers.FormatDateTime(bookedClass.classDateTime);
+            if (bookedClass) bookedClass.classDateTime = CommonHelpers.FormatDateTime(bookedClass.classDateTime);
 
             PageHelpers.RenderView(res, req, 'anon/course', {
                 pageTitle: 'View Course',
@@ -143,6 +143,26 @@ generateBookingReference = () => {
     return `${datePart}-${timePart}-${random}`;
 
 }
+
+
+exports.bookings_details_page = async (req, res) => {
+    const user = req.user;
+
+    let danceClasses = null;
+
+    if (user) {
+        danceClasses = await danceClassModel.getDanceClassesByUserId(user.userId);
+        if (danceClasses.length > 0) danceClasses.forEach((danceClass) => danceClass.classDateTime = CommonHelpers.FormatDateTime(danceClass.classDateTime));
+    }
+    
+
+    PageHelpers.RenderView(res, req, 'anon/bookings', {
+        pageTitle: 'View Course',
+        bundleName: 'anon-booking',
+        danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+        danceClasses: danceClasses,
+    });
+};
 
 //#endregion
 

@@ -55,19 +55,27 @@ class DanceClassDAO {
                 .sort({ title: 1 }) // Sort by title in ascending order
                 .exec((err, items) => err ? resolve([]) : resolve(items));
         });
-
-        // this.db.find({}, (err, items) => {
-        //     if (!err) {
-        //         return items;
-        //     } else {
-        //         return [];
-        //     }
-        // });
     }
 
     getDanceClassById = (danceClassId) => {
         return new Promise((resolve, reject) => {
             this.db.findOne({ _id: danceClassId }, (err, item) => err ? resolve(null) : resolve(item));
+        });
+    }
+
+    getDanceClassesByUserId = (userId) => {
+        return new Promise((resolve, reject) => {
+            this.db.find({ createdByUserId: userId })
+                .sort({ title: 1 }) // Sort by title in ascending order
+                .exec((err, items) => err ? resolve([]) : resolve(items));
+        });
+    }
+
+    getDanceClassesByBookingReference = (bookingReference) => {
+        return new Promise((resolve, reject) => {
+            this.db.find({ bookingReference: bookingReference })
+                .sort({ title: 1 }) // Sort by title in ascending order
+                .exec((err, items) => err ? resolve([]) : resolve(items));
         });
     }
 
