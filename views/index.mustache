@@ -1,3 +1,20 @@
 <h1>Welcome to the Dance Course Booking System</h1>
 <p>Explore and book dance courses with ease!</p>
 <a href="/courses">View Courses</a>
+
+<div class="row g-4">
+    {{#danceCourses}}
+        <div class="col-md-6 col-lg-4">
+          <a href="/course/{{_id}}" class="text-decoration-none text-dark"> 
+            <div class="card dash-tile shadow-sm h-100">
+              <div class="card-body d-flex align-items-start gap-3">
+                <div>
+                  <h5 class="card-title mb-1">{{title}}</h5>
+                  <p class="card-text text-muted mb-0">{{description}}</p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+    {{/danceCourses}}
+</div>

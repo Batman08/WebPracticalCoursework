@@ -5,6 +5,8 @@ const auth = require('../auth/auth.js')
 
 router.get('/', controller.index);
 
+router.get('/course/:danceCourseId', controller.course_details_page);
+
 router.get('/register', auth.isLoggedIn, controller.show_register_page);
 router.post('/register', controller.post_new_user);
 

@@ -1,0 +1,51 @@
+{{^danceClasses}}    
+    <div class="alert alert-info text-center shadow-sm" role="alert">
+      <h4 class="alert-heading"><i class="fa-solid fa-circle-info"></i> No Classes Available</h4>
+      <p>Currently, there are no classes available for this course. Please check back later.</p>
+    </div>
+{{/danceClasses}}
+
+{{#danceClasses}}    
+
+     <div class="row">
+        <div class="col-lg-8 mx-auto mb-3">
+          <div class="card shadow-sm rounded">
+            <div class="card-header bg-light text-center">
+              <h4>{{title}}</h4>
+            </div>
+            <div class="card-body">
+              <!-- Description -->
+              <div class="mb-4">
+                <h5><b>Description</b></h5>
+                <p>{{description}}</p>
+              </div>
+
+              <!-- Date & Time -->
+              <div class="mb-3">
+                  <div><b>Date & Time&nbsp;:</b> {{classDateTime}}</div>
+              </div>
+
+              <!-- Location -->
+              <div class="mb-3">
+                  <div><b>Location&nbsp;:</b> {{location}}</div>
+              </div>
+
+              <!-- Duration -->
+              <div class="mb-3">
+                  <div><b>Duration&nbsp;:</b> {{duration}}</div>
+              </div>
+
+              <!-- Price -->
+              <div class="mb-3">
+                  <div><b>Price&nbsp;:</b> £{{price}}</div>
+              </div>
+
+              <!-- Book Button -->
+              <div class="text-center">
+                <button class="btn btn-success btn-lg"><i class="fa-solid fa-calendar-plus"></i> Book Class</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+{{/danceClasses}}

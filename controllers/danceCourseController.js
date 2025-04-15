@@ -5,12 +5,13 @@ const danceClassModel = require('../models/danceClassModel.js');
 
 //#region Index
 
-exports.index = (req, res) => {
+exports.index = async (req, res) => {
     // console.log(dataTime.toLocaleString());
 
     PageHelpers.RenderView(res, req, 'index', {
         pageTitle: 'Welcome to the Dance Booking System',
-        bundleName: 'index'
+        bundleName: 'index',
+        danceCourses: await danceCourseModel.getAllDanceCourses()
     });
 };
 
@@ -47,6 +48,26 @@ exports.post_new_user = async (req, res) => {
         });
     }
 }
+
+//#endregion
+
+
+//#region View Course & Booking
+
+exports.course_details_page = async (req, res) => {
+    let danceClasses = await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId);
+    if (danceClasses.length > 0) { // convert date to local string
+        danceClasses.forEach((danceClass) => {
+            danceClass.classDateTime = new Date(danceClass.classDateTime).toLocaleString();
+        });
+    }
+
+    PageHelpers.RenderView(res, req, 'anon/course', {
+        pageTitle: 'View Course',
+        danceClasses: danceClasses
+        // danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId)
+    });
+};
 
 //#endregion
 
