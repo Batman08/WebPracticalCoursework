@@ -6,10 +6,12 @@ class UserDAO {
         else this.db = new Datastore(); //in memory
     }
 
-    create(username, passwordHash) {
+    create(username, passwordHash, name, email) {
         var entry = {
             username: username,
             password: passwordHash,
+            name: name,
+            email: email,
             role: "Admin Organiser",
             createdDateTime: new Date()
         };

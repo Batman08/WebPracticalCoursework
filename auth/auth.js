@@ -9,6 +9,8 @@ const generateToken = (user) => {
     const userData = {
         userId: user._id,
         username: user.username,
+        name: user.name,
+        email: user.email,
         role: user.role
     };
 
@@ -24,6 +26,20 @@ const authenticateToken = (req, res, next) => {
         req.user = user;
         next();
     });
+}
+
+const checkForUser = (req, res, next) => {
+    const token = req.cookies.jwt;
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+            if (!err) {
+                req.user = user;
+            }
+            next(); // call next() after verify finishes, whether or not user is valid
+        });
+    } else {
+        next(); // no token? just move on
+    }
 }
 
 const isLoggedIn = (req, res, next) => {
@@ -58,9 +74,9 @@ const isValidUser = async (username) => {
 
 //#region Register
 
-const registerUser = async (username, password) => {
+const registerUser = async (username, password, name, email) => {
     const hashedPassword = await bcrypt.hash(password, 10);
-    userModel.create(username, hashedPassword);
+    userModel.create(username, hashedPassword, name, email);
 }
 
 //#endregion
@@ -109,4 +125,4 @@ const isValidLogin = async (password, passwordHash) => {
 
 //#endregion
 
-module.exports = { authenticateToken, isLoggedIn, isValidUser, registerUser, handleUserLogin };
+module.exports = { authenticateToken, checkForUser, isLoggedIn, isValidUser, registerUser, handleUserLogin };

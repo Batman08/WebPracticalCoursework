@@ -8,9 +8,18 @@
     
     <form method="post" role="/register">
         <div class="mb-3">
-            {{user-name-error}}
-            <label for="inputUsername" class="form-label"><i class="fa-solid fa-user"></i> Username</label>
+            <label for="inputUsername" class="form-label"><i class="fa-regular fa-circle-user"></i> Username</label>
             <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Username" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="inputName" class="form-label"><i class="fa-solid fa-user"></i> Name</label>
+            <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="inputEmail" class="form-label"><i class="fa-solid fa-envelope"></i> Email</label>
+            <input type="text" class="form-control" id="inputEmail" name="email" placeholder="Email" required>
         </div>
         
         <div class="mb-3">
