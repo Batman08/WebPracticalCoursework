@@ -65,13 +65,9 @@ class DanceClassDAO {
         // });
     }
 
-    getDanceClassById = (classId) => {
-        this.db.find({}, (err, items) => {
-            if (!err) {
-                return items;
-            } else {
-                return [];
-            }
+    getDanceClassById = (danceClassId) => {
+        return new Promise((resolve, reject) => {
+            this.db.findOne({ _id: danceClassId }, (err, item) => err ? resolve(null) : resolve(item));
         });
     }
 

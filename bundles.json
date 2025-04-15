@@ -22,6 +22,14 @@
       },
 
       {
+        "Name": "b-anon-booking",
+        "CssFiles": [],
+        "JsFiles": [
+          "js/anon/guestBooking.js"
+        ]
+      },
+
+      {
         "Name": "b-index",
         "CssFiles": [
           "css/index.css"

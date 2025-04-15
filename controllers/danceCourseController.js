@@ -1,7 +1,9 @@
+const CommonHelpers = require("../Helpers/CommonHelpers");
 const PageHelpers = require("../Helpers/PageHelpers");
 const auth = require('../auth/auth.js')
 const danceCourseModel = require('../models/danceCourseModel.js');
 const danceClassModel = require('../models/danceClassModel.js');
+const danceClassBookingModel = require('../models/danceClassBookingModel.js');
 
 //#region Index
 
@@ -27,16 +29,16 @@ exports.show_register_page = (req, res) => {
 };
 
 exports.post_new_user = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, name, email } = req.body;
 
-    if (!username || !password) {
-        res.status(401).send('Username and password are required');
+    if (!username || !password || !name || !email) {
+        res.status(401).send('Please fill in all the required fields');
         return;
     }
 
     const user = await auth.isValidUser(username);
     if (!user) {
-        auth.registerUser(username, password);
+        auth.registerUser(username, password, name, email);
         res.redirect('/login');
 
         /* ToDo: log user in straight away? */
@@ -56,18 +58,91 @@ exports.post_new_user = async (req, res) => {
 
 exports.course_details_page = async (req, res) => {
     let danceClasses = await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId);
-    if (danceClasses.length > 0) { // convert date to local string
-        danceClasses.forEach((danceClass) => {
-            danceClass.classDateTime = new Date(danceClass.classDateTime).toLocaleString();
-        });
-    }
+    if (danceClasses.length > 0) danceClasses.forEach((danceClass) => danceClass.classDateTime = CommonHelpers.FormatDateTime(danceClass.classDateTime));
 
     PageHelpers.RenderView(res, req, 'anon/course', {
         pageTitle: 'View Course',
-        danceClasses: danceClasses
-        // danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId)
+        bundleName: 'anon-booking',
+        danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+        danceClasses: danceClasses,
     });
 };
+
+exports.post_entroll_course = async (req, res) => {
+};
+
+exports.post_booking = async (req, res) => {
+    const user = req.user;
+    let userId = null;
+    if (user) userId = user.userId;
+
+    const { danceClassId, name, email } = req.body;
+
+    const danceCourse = await danceCourseModel.getDanceCourseById(req.params.danceCourseId);
+    let danceClasses = await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId);
+    if (danceClasses.length > 0) danceClasses.forEach((danceClass) => danceClass.classDateTime = CommonHelpers.FormatDateTime(danceClass.classDateTime));
+
+    /* Book Class */
+    bookClass = async () => {
+        if (!user) {
+            if (!name || !email) {
+                PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses', {
+                    pageTitle: 'Manage Courses',
+                    bundleName: 'anon-booking',
+                    danceCourses: danceCourseModel.getAllDanceCourses(),
+                    errorMessage: 'Please fill in all booking details'
+                });
+                return;
+            }
+        }
+
+        const bookingReference = generateBookingReference();
+        danceClassBookingModel.createDanceClassBooking(danceClassId, userId, name, email, bookingReference).then(async (danceClassBookingId) => {
+            let bookedClass = await danceClassModel.getDanceClassById(danceClassId)
+            if(bookedClass) bookedClass.classDateTime = CommonHelpers.FormatDateTime(bookedClass.classDateTime);
+
+            PageHelpers.RenderView(res, req, 'anon/course', {
+                pageTitle: 'View Course',
+                bundleName: 'anon-booking',
+                danceCourse: danceCourse,
+                danceClasses: danceClasses,
+                successMessage: `Class booked successfully`,
+                bookedClass: bookedClass,
+                name: name
+            });
+        }).catch(async (err) => {
+            PageHelpers.RenderView(res, req, 'anon/course', {
+                pageTitle: 'View Course',
+                bundleName: 'anon-booking',
+                danceCourse: danceCourse,
+                danceClasses: danceClasses,
+                errorMessage: `Failed to book class`
+            });
+        });
+    }
+
+    switch (req.body.action) {
+        case 'enroll_course':
+            enrollCourse();
+            break;
+        case 'book_class':
+            bookClass();
+            break;
+        default:
+            break;
+    }
+};
+
+generateBookingReference = () => {
+    //create booking reference number
+    const currentDateTime = new Date();
+    const datePart = currentDateTime.toISOString().slice(0, 10).replace(/-/g, '');
+    const timePart = currentDateTime.toTimeString().slice(0, 5).replace(':', '');
+    const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+
+    return `${datePart}-${timePart}-${random}`;
+
+}
 
 //#endregion
 

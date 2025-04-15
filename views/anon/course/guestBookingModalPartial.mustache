@@ -1,0 +1,37 @@
+<!-- Guest Class Booking Modal -->
+
+<div class="modal fade" id="divGuestClassBookingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="guestClassBookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header bg-primary text-white" data-bs-theme="dark">
+            <h1 class="modal-title fs-5" id="guestClassBookingModalLabel"><i class="fa fa-chalkboard-user"></i> Book Class</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="post" action="/course/{{_id}}">
+          <div class="modal-body">
+            <!-- Name -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputName">Name</label>
+                <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" maxlength="256" required>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label class="form-label fw-bold" for="inputEmail">Email</label>
+                <input type="text" class="form-control" id="inputEmail" name="email" placeholder="Email" maxlength="256" required>
+            </div>
+
+            <!-- Dance Class -->
+            <input type="hidden" id="inputDanceClassId" name="danceClassId" value="">
+
+            <!-- Action Type -->
+            <input type="hidden" name="action" value="book_class">
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-danger shadow-sm" data-bs-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancel</button>
+            <button type="submit" class="btn btn-success shadow-sm"><i class="fa-solid fa-calendar-plus"></i> Book Class</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
