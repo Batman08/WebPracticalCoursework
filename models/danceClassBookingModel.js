@@ -4,6 +4,9 @@ class DanceClassBookingDAO {
     constructor(dbFilePath) {
         if (dbFilePath) this.db = new Datastore({ filename: dbFilePath, autoload: true }); //embedded
         else this.db = new Datastore(); //in memory
+
+        // Auto-compact every 5 minutes
+        this.db.persistence.setAutocompactionInterval(5 * 60 * 1000);
     }
 
     //#region Commands
@@ -29,9 +32,9 @@ class DanceClassBookingDAO {
         });
     };
 
-    deleteDanceClassById = (classId) => {
+    deleteDanceClassBookingById = (bookingId) => {
         return new Promise((resolve, reject) => {
-            this.db.remove({ _id: classId }, {}, (err, numRemoved) => err ? reject(numRemoved) : resolve(classId));
+            this.db.remove({ _id: bookingId }, {}, (err, numRemoved) => err ? reject() : resolve(numRemoved));
         });
     };
 
@@ -54,21 +57,21 @@ class DanceClassBookingDAO {
                 .sort({ title: 1 }) // Sort by title in ascending order
                 .exec((err, items) => {
                     if (err) return resolve([]);
-                
-                //only return danceClassBookingId and danceClassId values
-                 const result = items.map(item => ({
-                     danceClassBookingId: item._id,
-                     danceClassId: item.danceClassId,
-                 }));
-                 resolve(result);
+
+                    //only return danceClassBookingId and danceClassId values
+                    const result = items.map(item => ({
+                        danceClassBookingId: item._id,
+                        danceClassId: item.danceClassId,
+                    }));
+                    resolve(result);
                 });
 
-                // Only return danceClassBookingId and booking reference values
-                // const result = items.map(item => ({
-                //     _id: item._id,
-                //     bookingReference: item.bookingReference
-                // }));
-                // resolve(result);
+            // Only return danceClassBookingId and booking reference values
+            // const result = items.map(item => ({
+            //     _id: item._id,
+            //     bookingReference: item.bookingReference
+            // }));
+            // resolve(result);
         });
     }
 

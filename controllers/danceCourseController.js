@@ -163,7 +163,7 @@ exports.post_view_bookings = async (req, res) => {
             PageHelpers.RenderView(res, req, 'anon/bookings', {
                 pageTitle: 'Bookings',
                 bundleName: 'anon-booking',
-                errorMessage: '<div class="text-danger fw-bold"><i class="fa-solid fa-circle-exclamation"></i> Please enter a valid booking reference</div>'
+                errorMessage: '<div class="text-danger fw-bold"><i class="fa-solid fa-circle-exclamation"></i> Please enter a booking reference</div>'
             });
             return;
         }
@@ -186,13 +186,41 @@ exports.post_view_bookings = async (req, res) => {
             pageTitle: 'Bookings',
             bundleName: 'anon-booking',
             bookedDanceClasses: bookedDanceClasses,
-            infoMessage: bookedDanceClasses.length == 0 ? '<i class="fa-solid fa-ban"></i> No bookings found' : null
+            infoMessage: bookedDanceClasses.length == 0 ? '<i class="fa-solid fa-ban"></i> No bookings found' : null,
+            errorMessage: bookedDanceClasses.length == 0 ? '<div class="text-danger fw-bold"><i class="fa-solid fa-circle-exclamation"></i> Please enter a valid booking reference</div>' : null
+        });
+    }
+
+    cancelBooking = async () => {
+        if (!req.body.danceClassBookingId) {
+            PageHelpers.RenderView(res, req, 'anon/bookings', {
+                pageTitle: 'Bookings',
+                bundleName: 'anon-booking'
+            });
+            return;
+        }
+
+        danceClassBookingModel.deleteDanceClassBookingById(req.body.danceClassBookingId).then(() => {
+            PageHelpers.RenderView(res, req, 'anon/bookings', {
+                pageTitle: 'Bookings',
+                bundleName: 'anon-booking',
+                successMessageDeleteBooking: `Booking cancelled successfully`
+            });
+        }).catch(() => {
+            PageHelpers.RenderView(res, req, 'anon/bookings', {
+                pageTitle: 'Bookings',
+                bundleName: 'anon-booking',
+                errorMessageDeleteBooking: 'Failed to cancel booking'
+            });
         });
     }
 
     switch (req.body.action) {
         case 'guest_view_bookings':
             guestViewBookings();
+            break;
+        case 'cancel_booking':
+            cancelBooking();
             break;
         default:
             break;

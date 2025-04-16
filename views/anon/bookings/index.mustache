@@ -1,5 +1,13 @@
 <h1 class="text-center mb-5">Bookings</h1>
 
+{{#successMessageDeleteBooking}}
+    <div class="p-3 bg-success bg-opacity-10 border border-success border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm mb-5"><i class="fa-solid fa-check"></i> {{successMessageDeleteBooking}}</div>
+{{/successMessageDeleteBooking}}
+
+{{#errorMessageDeleteBooking}}
+    <div class="p-3 bg-danger bg-opacity-10 border border-danger border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm mb-5"><i class="fa-solid fa-xmark"></i> {{errorMessageDeleteBooking}}</div>
+{{/errorMessageDeleteBooking}}
+    
 {{^user}}
     <div class="row pb-4">
         <div class="col-md-12 col-lg-4 mx-auto">
@@ -75,10 +83,17 @@
                             <div><i class="fa-solid fa-tag"></i> <b>Price&nbsp;:</b> £{{price}}</div>
                         </div>
 
-                        <!-- Book Button -->
                         <div class="text-center">
-                            <form method="post" action="/booking/{{danceClassBookingId}}">
-                                <button class="btn btn-danger btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateClassModal"><i class="fa-solid fa-calendar-xmark"></i> Cancel booking</button>
+                            <!-- Form Cancel Booking -->
+                            <form method="post" action="/bookings">
+                                <!-- Dance Class Booking Id -->
+                                <input type="hidden" name="danceClassBookingId" value="{{danceClassBookingId}}">
+
+                                <!-- Action Type -->
+                                <input type="hidden" name="action" value="cancel_booking">
+
+                                <!-- Cancel Button -->
+                                <button type="submit" class="btn btn-danger btn-lg shadow-sm"><i class="fa-solid fa-calendar-xmark"></i> Cancel booking</button>
                             </form>
                         </div>
                     </div>
