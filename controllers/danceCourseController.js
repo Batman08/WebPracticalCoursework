@@ -148,20 +148,55 @@ generateBookingReference = () => {
 exports.bookings_details_page = async (req, res) => {
     const user = req.user;
 
-    let danceClasses = null;
-
-    if (user) {
-        danceClasses = await danceClassModel.getDanceClassesByUserId(user.userId);
-        if (danceClasses.length > 0) danceClasses.forEach((danceClass) => danceClass.classDateTime = CommonHelpers.FormatDateTime(danceClass.classDateTime));
-    }
-    
-
     PageHelpers.RenderView(res, req, 'anon/bookings', {
-        pageTitle: 'View Course',
+        pageTitle: 'Bookings',
         bundleName: 'anon-booking',
-        danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
-        danceClasses: danceClasses,
+        infoMessage: '<i class="fa-solid fa-circle-info"></i> To find you booking either search with booking reference, or log in'
     });
+};
+
+exports.post_view_bookings = async (req, res) => {
+    const user = req.user;
+
+    guestViewBookings = async () => {
+        if (!req.body.bookingReference) {
+            PageHelpers.RenderView(res, req, 'anon/bookings', {
+                pageTitle: 'Bookings',
+                bundleName: 'anon-booking',
+                errorMessage: '<div class="text-danger fw-bold"><i class="fa-solid fa-circle-exclamation"></i> Please enter a valid booking reference</div>'
+            });
+            return;
+        }
+
+        const bookedDanceClass = await danceClassBookingModel.getClassBookingsByBookingReference(req.body.bookingReference);
+        let bookedDanceClasses = await Promise.all(
+            bookedDanceClass.map(async (entry) => {
+                const danceClass = await danceClassModel.getDanceClassById(entry.danceClassId);
+                // Attach booking _id to the dance class object
+                return {
+                    ...danceClass,
+                    danceClassBookingId: entry.danceClassBookingId,
+                    danceClassId: entry.danceClassId
+                };
+            })
+        );
+        if (bookedDanceClasses.length > 0) bookedDanceClasses.forEach((danceClass) => danceClass.classDateTime = CommonHelpers.FormatDateTime(danceClass.classDateTime));
+
+        PageHelpers.RenderView(res, req, 'anon/bookings', {
+            pageTitle: 'Bookings',
+            bundleName: 'anon-booking',
+            bookedDanceClasses: bookedDanceClasses,
+            infoMessage: bookedDanceClasses.length == 0 ? '<i class="fa-solid fa-ban"></i> No bookings found' : null
+        });
+    }
+
+    switch (req.body.action) {
+        case 'guest_view_bookings':
+            guestViewBookings();
+            break;
+        default:
+            break;
+    }
 };
 
 //#endregion

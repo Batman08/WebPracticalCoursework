@@ -40,21 +40,37 @@ class DanceClassBookingDAO {
 
     //#region Queries
 
-    getAllDanceClasses = () => {
-        this.db.find({}, (err, items) => {
-            if (!err) {
-                return items;
-            } else {
-                return [];
-            }
-        });
-    };
-
-    getDanceClassById = (classId) => {
+    getClassBookingsByUserId = (userId) => {
         return new Promise((resolve, reject) => {
-            this.db.findOne({ _id: classId }, (err, item) => err ? reject(err) : resolve(item));
+            this.db.find({ createdByUserId: userId })
+                .sort({ title: 1 }) // Sort by title in ascending order
+                .exec((err, items) => err ? resolve([]) : resolve(items));
         });
-    };
+    }
+
+    getClassBookingsByBookingReference = (bookingReference) => {
+        return new Promise((resolve, reject) => {
+            this.db.find({ bookingReference: bookingReference })
+                .sort({ title: 1 }) // Sort by title in ascending order
+                .exec((err, items) => {
+                    if (err) return resolve([]);
+                
+                //only return danceClassBookingId and danceClassId values
+                 const result = items.map(item => ({
+                     danceClassBookingId: item._id,
+                     danceClassId: item.danceClassId,
+                 }));
+                 resolve(result);
+                });
+
+                // Only return danceClassBookingId and booking reference values
+                // const result = items.map(item => ({
+                //     _id: item._id,
+                //     bookingReference: item.bookingReference
+                // }));
+                // resolve(result);
+        });
+    }
 
     //#endregion
 }
