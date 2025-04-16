@@ -90,7 +90,69 @@
                                 <input type="hidden" name="danceClassBookingId" value="{{danceClassBookingId}}">
 
                                 <!-- Action Type -->
-                                <input type="hidden" name="action" value="cancel_booking">
+                                <input type="hidden" name="action" value="guest_user_cancel_booking">
+
+                                <!-- Cancel Button -->
+                                <button type="submit" class="btn btn-danger btn-lg shadow-sm"><i class="fa-solid fa-calendar-xmark"></i> Cancel booking</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/bookedDanceClasses}}
+{{/user}}
+
+
+{{#user}}
+    <h3 class="fw-bold pb-4">My Bookings</h3>
+
+    {{^bookedDanceClasses}}
+        <div class="p-3 bg-info bg-opacity-10 border border-info border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm"><i class="fa-solid fa-ban"></i> No bookings found</div>
+    {{/bookedDanceClasses}}
+
+    {{#bookedDanceClasses}}
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card shadow-sm rounded">
+                    <div class="card-header bg-light text-center">
+                      <h4><i class="fa fa-chalkboard-user"></i> {{title}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Description -->
+                        <div class="mb-4">
+                          <h5><b>Description</b></h5>
+                          <p>{{description}}</p>
+                        </div>
+
+                        <!-- Date & Time -->
+                        <div class="mb-3">
+                            <div><i class="fa-solid fa-calendar-day"></i> <b>Date & Time&nbsp;:</b> {{classDateTime}}</div>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="mb-3">
+                            <div><i class="fa-solid fa-location-dot"></i> <b>Location&nbsp;:</b> {{location}}</div>
+                        </div>
+
+                        <!-- Duration -->
+                        <div class="mb-3">
+                            <div><i class="fa-solid fa-clock"></i> <b>Class duration&nbsp;:</b> {{duration}} minutes</div>
+                        </div>
+
+                        <!-- Price -->
+                        <div class="mb-3">
+                            <div><i class="fa-solid fa-tag"></i> <b>Price&nbsp;:</b> £{{price}}</div>
+                        </div>
+
+                        <div class="text-center">
+                            <!-- Form Cancel Booking -->
+                            <form method="post" action="/bookings">
+                                <!-- Dance Class Booking Id -->
+                                <input type="hidden" name="danceClassBookingId" value="{{danceClassBookingId}}">
+
+                                <!-- Action Type -->
+                                <input type="hidden" name="action" value="account_user_cancel_booking">
 
                                 <!-- Cancel Button -->
                                 <button type="submit" class="btn btn-danger btn-lg shadow-sm"><i class="fa-solid fa-calendar-xmark"></i> Cancel booking</button>

@@ -45,9 +45,18 @@ class DanceClassBookingDAO {
 
     getClassBookingsByUserId = (userId) => {
         return new Promise((resolve, reject) => {
-            this.db.find({ createdByUserId: userId })
+            this.db.find({ userId: userId })
                 .sort({ title: 1 }) // Sort by title in ascending order
-                .exec((err, items) => err ? resolve([]) : resolve(items));
+                .exec((err, items) => {
+                    if (err) return resolve([]);
+
+                    //only return danceClassBookingId and danceClassId values
+                    const result = items.map(item => ({
+                        danceClassBookingId: item._id,
+                        danceClassId: item.danceClassId,
+                    }));
+                    resolve(result);
+                });
         });
     }
 
@@ -65,13 +74,6 @@ class DanceClassBookingDAO {
                     }));
                     resolve(result);
                 });
-
-            // Only return danceClassBookingId and booking reference values
-            // const result = items.map(item => ({
-            //     _id: item._id,
-            //     bookingReference: item.bookingReference
-            // }));
-            // resolve(result);
         });
     }
 

@@ -148,16 +148,38 @@ generateBookingReference = () => {
 exports.bookings_details_page = async (req, res) => {
     const user = req.user;
 
-    PageHelpers.RenderView(res, req, 'anon/bookings', {
-        pageTitle: 'Bookings',
-        bundleName: 'anon-booking',
-        infoMessage: '<i class="fa-solid fa-circle-info"></i> To find you booking either search with booking reference, or log in'
-    });
+    if (user) {
+        const bookedDanceClass = await danceClassBookingModel.getClassBookingsByUserId(user.userId);
+        let bookedDanceClasses = await Promise.all(
+            bookedDanceClass.map(async (entry) => {
+                const danceClass = await danceClassModel.getDanceClassById(entry.danceClassId);
+                // Attach booking _id to the dance class object
+                return {
+                    ...danceClass,
+                    danceClassBookingId: entry.danceClassBookingId,
+                    danceClassId: entry.danceClassId
+                };
+            })
+        );
+        if (bookedDanceClasses.length > 0) bookedDanceClasses.forEach((danceClass) => danceClass.classDateTime = CommonHelpers.FormatDateTime(danceClass.classDateTime));
+
+        PageHelpers.RenderView(res, req, 'anon/bookings', {
+            pageTitle: 'Bookings',
+            bundleName: 'anon-booking',
+            bookedDanceClasses: bookedDanceClasses
+        });
+    }
+    else {
+        PageHelpers.RenderView(res, req, 'anon/bookings', {
+            pageTitle: 'Bookings',
+            bundleName: 'anon-booking',
+            infoMessage: '<i class="fa-solid fa-circle-info"></i> To find you booking either search with booking reference, or log in'
+        });
+    }
+
 };
 
 exports.post_view_bookings = async (req, res) => {
-    const user = req.user;
-
     guestViewBookings = async () => {
         if (!req.body.bookingReference) {
             PageHelpers.RenderView(res, req, 'anon/bookings', {
@@ -191,7 +213,7 @@ exports.post_view_bookings = async (req, res) => {
         });
     }
 
-    cancelBooking = async () => {
+    guestUserCancelBooking = async () => {
         if (!req.body.danceClassBookingId) {
             PageHelpers.RenderView(res, req, 'anon/bookings', {
                 pageTitle: 'Bookings',
@@ -215,12 +237,74 @@ exports.post_view_bookings = async (req, res) => {
         });
     }
 
+    accountUserCancelBooking = async () => {
+        const user = req.user;
+
+        const bookedDanceClass = await danceClassBookingModel.getClassBookingsByUserId(user.userId);
+        let bookedDanceClasses = await Promise.all(
+            bookedDanceClass.map(async (entry) => {
+                const danceClass = await danceClassModel.getDanceClassById(entry.danceClassId);
+                // Attach booking _id to the dance class object
+                return {
+                    ...danceClass,
+                    danceClassBookingId: entry.danceClassBookingId,
+                    danceClassId: entry.danceClassId
+                };
+            })
+        );
+        if (bookedDanceClasses.length > 0) bookedDanceClasses.forEach((danceClass) => danceClass.classDateTime = CommonHelpers.FormatDateTime(danceClass.classDateTime));
+
+        if (!req.body.danceClassBookingId) {
+            PageHelpers.RenderView(res, req, 'anon/bookings', {
+                pageTitle: 'Bookings',
+                bundleName: 'anon-booking',
+                bookedDanceClasses: bookedDanceClasses
+            });
+            return;
+        }
+
+        danceClassBookingModel.deleteDanceClassBookingById(req.body.danceClassBookingId).then(async () => {
+            //get all the bookings again
+            const bookedDanceClass = await danceClassBookingModel.getClassBookingsByUserId(user.userId);
+            let bookedDanceClasses = await Promise.all(
+                bookedDanceClass.map(async (entry) => {
+                    const danceClass = await danceClassModel.getDanceClassById(entry.danceClassId);
+                    // Attach booking _id to the dance class object
+                    return {
+                        ...danceClass,
+                        danceClassBookingId: entry.danceClassBookingId,
+                        danceClassId: entry.danceClassId
+                    };
+                })
+            );
+            if (bookedDanceClasses.length > 0) bookedDanceClasses.forEach((danceClass) => danceClass.classDateTime = CommonHelpers.FormatDateTime(danceClass.classDateTime));
+
+            
+            PageHelpers.RenderView(res, req, 'anon/bookings', {
+                pageTitle: 'Bookings',
+                bundleName: 'anon-booking',
+                bookedDanceClasses: bookedDanceClasses,
+                successMessageDeleteBooking: `Booking cancelled successfully`
+            });
+        }).catch(() => {
+            PageHelpers.RenderView(res, req, 'anon/bookings', {
+                pageTitle: 'Bookings',
+                bundleName: 'anon-booking',
+                bookedDanceClasses: bookedDanceClasses,
+                errorMessageDeleteBooking: 'Failed to cancel booking'
+            });
+        });
+    }
+
     switch (req.body.action) {
         case 'guest_view_bookings':
             guestViewBookings();
             break;
-        case 'cancel_booking':
-            cancelBooking();
+        case 'guest_user_cancel_booking':
+            guestUserCancelBooking();
+            break;
+        case 'account_user_cancel_booking':
+            accountUserCancelBooking();
             break;
         default:
             break;

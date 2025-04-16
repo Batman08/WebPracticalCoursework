@@ -63,22 +63,6 @@ class DanceClassDAO {
         });
     }
 
-    getDanceClassesByUserId = (userId) => {
-        return new Promise((resolve, reject) => {
-            this.db.find({ createdByUserId: userId })
-                .sort({ title: 1 }) // Sort by title in ascending order
-                .exec((err, items) => err ? resolve([]) : resolve(items));
-        });
-    }
-
-    getDanceClassesByBookingReference = (bookingReference) => {
-        return new Promise((resolve, reject) => {
-            this.db.find({ bookingReference: bookingReference })
-                .sort({ title: 1 }) // Sort by title in ascending order
-                .exec((err, items) => err ? resolve([]) : resolve(items));
-        });
-    }
-
     //#endregion
 }
 

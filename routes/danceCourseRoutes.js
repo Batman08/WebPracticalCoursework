@@ -9,7 +9,7 @@ router.get('/course/:danceCourseId', controller.course_details_page);
 router.post('/course/:danceCourseId', auth.checkForUser, controller.post_booking);
 
 router.get('/bookings', auth.checkForUser, controller.bookings_details_page);
-router.post('/bookings', controller.post_view_bookings);
+router.post('/bookings', auth.checkForUser, controller.post_view_bookings);
 
 router.get('/register', auth.isLoggedIn, controller.show_register_page);
 router.post('/register', controller.post_new_user);
