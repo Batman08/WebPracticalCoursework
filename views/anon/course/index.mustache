@@ -1,7 +1,12 @@
 {{#danceCourse}}
     <div class="text-center mb-4">
         <h1><i class="fa fa-book-open"></i> {{title}}</h1>
-        <div><i class="fa-solid fa-clock"></i> Course duration of <b>{{duration}}</b></div>
+        {{^duration}}
+            <div><i class="fa-solid fa-clock"></i> Course duration <b>N/A</b></div>
+        {{/duration}}
+        {{#duration}}
+            <div><i class="fa-solid fa-clock"></i> Course duration of <b>{{duration}}</b></div>
+        {{/duration}}
         <div>{{description}}</div>
 
     {{#user}}

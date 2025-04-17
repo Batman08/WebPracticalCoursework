@@ -1,6 +1,6 @@
 {"createdByUserId":"lz0pxTvlCRlftTv6","title":"Afrobeat Grooves","description":"High-energy Afrobeat choreography and movement.","createdDateTime":{"$$date":1744750000000},"_id":"afrobeat25"}
-{"createdByUserId":"lz0pxTvlCRlftTv6","title":"Intro to Bachata","description":"Sensual Latin partner dance, beginner friendly.","createdDateTime":{"$$date":1744743600000},"_id":"bachata25"}
-{"createdByUserId":"lz0pxTvlCRlftTv6","title":"Breaking Fundamentals","description":"Learn foundational breakdance moves and floorwork.","createdDateTime":{"$$date":1744747200000},"_id":"break25"}
-{"createdByUserId":"lz0pxTvlCRlftTv6","title":"Spring Salsa Beginners","description":"Learn the basics of salsa dancing in a fun and friendly environment.","createdDateTime":{"$$date":1744732800000},"_id":"cSalsa001"}
-{"createdByUserId":"lz0pxTvlCRlftTv6","title":"Contemporary Flow","description":"Explore modern and lyrical movement styles.","createdDateTime":{"$$date":1744740000000},"_id":"contemp25"}
-{"createdByUserId":"lz0pxTvlCRlftTv6","title":"April Hip Hop Intensive","description":"An advanced hip hop dance course for experienced dancers.","createdDateTime":{"$$date":1744732800000},"_id":"hiphopX2025"}
+{"createdByUserId":"lz0pxTvlCRlftTv6","title":"Intro to Bachata","description":"Sensual Latin partner dance, beginner friendly.","createdDateTime":{"$$date":1744743600000},"_id":"bachata25","duration":"6 days"}
+{"createdByUserId":"lz0pxTvlCRlftTv6","title":"Breaking Fundamentals","description":"Learn foundational breakdance moves and floorwork.","createdDateTime":{"$$date":1744747200000},"_id":"break25","duration":"2 weeks"}
+{"createdByUserId":"lz0pxTvlCRlftTv6","title":"Spring Salsa Beginners","description":"Learn the basics of salsa dancing in a fun and friendly environment.","createdDateTime":{"$$date":1744732800000},"_id":"cSalsa001","duration":"13 days"}
+{"createdByUserId":"lz0pxTvlCRlftTv6","title":"Contemporary Flow","description":"Explore modern and lyrical movement styles.","createdDateTime":{"$$date":1744740000000},"_id":"contemp25","duration":"2 weeks"}
+{"createdByUserId":"lz0pxTvlCRlftTv6","title":"April Hip Hop Intensive","description":"An advanced hip hop dance course for experienced dancers.","createdDateTime":{"$$date":1744732800000},"_id":"hiphopX2025","duration":"6 weeks"}

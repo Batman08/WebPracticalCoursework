@@ -11,11 +11,12 @@ class DanceCourseDAO {
 
     //#region Commands
 
-    createDanceCourse = (title, description, userId) => {
+    createDanceCourse = (title, description, duration, userId) => {
         var entry = {
             createdByUserId: userId,
             title: title,
             description: description,
+            duration: duration,
             createdDateTime: new Date()
         };
 
@@ -30,9 +31,9 @@ class DanceCourseDAO {
         });
     };
 
-    updateDanceCourse = (courseId, title, description) => {
+    updateDanceCourse = (courseId, title, description, duration) => {
         return new Promise((resolve, reject) => {
-            this.db.update({ _id: courseId }, { $set: { title: title, description: description } }, {}, (err, numUpdated) => err ? reject(err) : resolve(numUpdated));
+            this.db.update({ _id: courseId }, { $set: { title: title, description: description, duration: duration } }, {}, (err, numUpdated) => err ? reject(err) : resolve(numUpdated));
         });
     }
 

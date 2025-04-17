@@ -38,12 +38,37 @@
                   </div>
               </div>
 
+            <div class="row mb-3">
+                <div class="col-md-3 text-start ps-sm-2">
+                    <label class="col-form-label fw-bold ps-1 ps-md-3">Duration&nbsp;:</label>
+                  </div>
+                  <div class="col-md-9">
+                      <input type="text" class="form-control pe-none" value="{{duration}}" disabled="">
+                  </div>
+              </div>
+
               <div class="text-end">
                   <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#divEditCourseDetailsModal"><i class="fa-solid fa-pen-to-square"></i> Edit Course Details</button>
+                    <form method="post" action="/admin/dashboard/managecourses/course/{{_id}}" class="d-inline">            
+                        <!-- Action Type -->
+                        <input type="hidden" name="action" value="delete_course">
+
+                        <button type="submit" class="btn btn-danger shadow-sm"><i class="fa-solid fa-trash-can"></i> Remove Course</button>
+                    </form>
               </div>
             </div>
           </div>
       </div>
+  </div>
+{{/danceCourse}}
+
+{{^danceCourse}}
+  <div class="row pb-4">
+    <h3 class="fw-bold pb-4"><i class="fas fa-calendar-alt"></i> Dance Course Details</h3>
+
+    <div class="p-3 bg-info bg-opacity-10 border border-info border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm">
+        <i class="fa-solid fa-ban"></i> No course found
+    </div>
   </div>
 {{/danceCourse}}
 
@@ -136,6 +161,7 @@
   
                 <div class="text-end mt-3">
                     <a href="/admin/dashboard/managecourses/course/bookings/{{_id}}" class="btn btn-secondary shadow-sm"><i class="fa-solid fa-users-gear"></i> Manage Bookings</a>
+                    
                     <button class="btn btn-primary shadow-sm" 
                             data-btnEditClassDetails
                             data-danceClassId="{{_id}}"
@@ -145,7 +171,18 @@
                             data-duration="{{duration}}"
                             data-location="{{location}}"
                             data-price="{{price}}"><i class="fa-solid fa-pen-to-square"></i> Edit Class Details</button>
-                    <button class="btn btn-danger shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateClassModal"><i class="fa-solid fa-trash-can"></i> Remove Class</button>
+                    
+                    {{#danceCourse}}
+                    <form method="post" action="/admin/dashboard/managecourses/course/{{_id}}" class="d-inline">
+                    {{/danceCourse}}
+                        <!-- Dance Class Id -->
+                        <input type="hidden" name="danceClassId" value="{{_id}}">
+            
+                        <!-- Action Type -->
+                        <input type="hidden" name="action" value="delete_class">
+
+                        <button type="submit" class="btn btn-danger shadow-sm"><i class="fa-solid fa-trash-can"></i> Remove Class</button>
+                    </form>
                 </div>
             </div>
           </div>

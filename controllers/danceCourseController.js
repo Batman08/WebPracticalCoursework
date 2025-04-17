@@ -21,7 +21,7 @@ exports.about_page = async (req, res) => {
     });
 };
 
-//endregion
+//#endregion
 
 
 //#region Register
@@ -461,9 +461,9 @@ exports.admin_manage_courses_page = async (req, res) => {
 
 exports.post_admin_create_course = (req, res) => {
     const user = req.user;
-    const { title, description } = req.body;
+    const { title, description, duration } = req.body;
 
-    if (!title || !description) {
+    if (!title || !description || !duration) {
         PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses', {
             pageTitle: 'Manage Courses',
             danceCourses: danceCourseModel.getAllDanceCourses(),
@@ -472,7 +472,7 @@ exports.post_admin_create_course = (req, res) => {
         return;
     }
 
-    danceCourseModel.createDanceCourse(title, description, user.userId).then(async (courseId) => {
+    danceCourseModel.createDanceCourse(title, description, duration, user.userId).then(async (courseId) => {
         PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses', {
             pageTitle: 'Manage Courses',
             danceCourses: await danceCourseModel.getAllDanceCourses(),
@@ -498,9 +498,9 @@ exports.admin_manage_course_page = async (req, res) => {
 
 exports.post_admin_update_course = async (req, res) => {
     updateCourseDetails = async () => {
-        const { title, description } = req.body;
+        const { title, description, duration } = req.body;
 
-        if (!title || !description) {
+        if (!title || !description || !duration) {
             PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
                 pageTitle: 'Manage Course',
                 bundleName: 'admin-manage-course',
@@ -511,7 +511,7 @@ exports.post_admin_update_course = async (req, res) => {
             return;
         }
 
-        danceCourseModel.updateDanceCourse(req.params.danceCourseId, title, description).then(async () => {
+        danceCourseModel.updateDanceCourse(req.params.danceCourseId, title, description, duration).then(async () => {
             PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
                 pageTitle: 'Manage Course',
                 bundleName: 'admin-manage-course',
@@ -530,7 +530,31 @@ exports.post_admin_update_course = async (req, res) => {
         });
     }
 
-    deleteCourse = () => { }
+    deleteCourse = async () => {
+        if (!req.params.danceCourseId) {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Courses',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                errorMessageDanceClass: 'Something went wrong, please try again'
+            });
+            return;
+        }
+
+        danceCourseModel.deleteDanceCourseById(req.params.danceCourseId).then(async () => {
+            //redirect to the manage courses page
+            res.redirect('/admin/dashboard/managecourses');
+        }).catch(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                errorMessageDanceClass: `Failed to remove course`
+            });
+        });
+    }
 
 
     createClass = async () => {
@@ -561,6 +585,7 @@ exports.post_admin_update_course = async (req, res) => {
                 pageTitle: 'Manage Course',
                 bundleName: 'admin-manage-course',
                 danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
                 errorMessageDanceClass: `Failed to create class "${title}"`
             });
         });
@@ -599,6 +624,37 @@ exports.post_admin_update_course = async (req, res) => {
         });
     }
 
+    deleteClass = async () => {
+        if (!req.body.danceClassId) {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Courses',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                errorMessageDanceClass: 'Something went wrong, please try again'
+            });
+            return;
+        }
+
+        danceClassModel.deleteDanceClassById(req.body.danceClassId).then(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                successMessageDanceClass: `Class removed successfully`
+            });
+        }).catch(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/', {
+                pageTitle: 'Manage Course',
+                bundleName: 'admin-manage-course',
+                danceCourse: await danceCourseModel.getDanceCourseById(req.params.danceCourseId),
+                danceClasses: await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId),
+                errorMessageDanceClass: `Failed to remove class`
+            });
+        });
+    }
+
     switch (req.body.action) {
         case 'update_course_details':
             updateCourseDetails();
@@ -611,6 +667,9 @@ exports.post_admin_update_course = async (req, res) => {
             break;
         case 'update_class_details':
             updateClassDetails();
+            break;
+        case 'delete_class':
+            deleteClass();
             break;
         default:
             break;
