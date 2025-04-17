@@ -13,7 +13,6 @@ exports.index = async (req, res) => {
 
     PageHelpers.RenderView(res, req, 'index', {
         pageTitle: 'Welcome to the Dance Booking System',
-        bundleName: 'index',
         danceCourses: await danceCourseModel.getAllDanceCourses()
     });
 };
@@ -51,6 +50,26 @@ exports.post_new_user = async (req, res) => {
         });
     }
 }
+
+//#endregion
+
+
+//#region Login
+
+exports.show_login_page = (req, res) => {
+    PageHelpers.RenderView(res, req, 'anon/login', {
+        pageTitle: 'Login',
+    });
+};
+
+exports.handle_login = (req, res) => {
+    res.redirect('/');
+};
+
+exports.handle_logout = (req, res) => {
+    req.user = null;
+    res.clearCookie("jwt").status(200).redirect("/");
+};
 
 //#endregion
 
@@ -360,26 +379,6 @@ exports.post_view_bookings = async (req, res) => {
         default:
             break;
     }
-};
-
-//#endregion
-
-
-//#region Login
-
-exports.show_login_page = (req, res) => {
-    PageHelpers.RenderView(res, req, 'anon/login', {
-        pageTitle: 'Login',
-    });
-};
-
-exports.handle_login = (req, res) => {
-    res.redirect('admin/dashboard');
-};
-
-exports.handle_logout = (req, res) => {
-    req.user = null;
-    res.clearCookie("jwt").status(200).redirect("/");
 };
 
 //#endregion

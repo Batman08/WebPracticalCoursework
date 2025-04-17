@@ -1,55 +1,60 @@
 {{^user}}
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Home</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="/">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="/bookings">Bookings</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/login">Log in</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/register">Register</a>
-                    </li>
-                  </ul>
-                </div>
-          </div>
-        </nav>
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+      <ul class="navbar-nav d-flex justify-content-center text-center">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/bookings">Bookings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Log in</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 {{/user}}
 
 {{#user}}
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Home</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="/">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="/bookings">Bookings</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="/admin/dashboard">Admin Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                      <form method="post" action="/logout">
-                        <button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
-                      </form>
-                    </li>
-                  </ul>
-                </div>
-          </div>
-        </nav>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+          <ul class="navbar-nav d-flex justify-content-center text-center">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/bookings">Bookings</a>
+            </li>
+            {{#role}}
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/admin/dashboard">Admin Dashboard</a>
+              </li>
+            {{/role}}
+            <li class="nav-item">
+              <form method="post" action="/logout">
+                <button type="submit" class="btn btn-outline-danger"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 {{/user}}
