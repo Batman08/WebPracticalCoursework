@@ -84,4 +84,3 @@ Although the project was originally intended to use only Node.js and Mustache fo
 ### Bundles.json for Resource Management
 
 To simplify and centralize the inclusion of CSS and JavaScript assets, a `bundles.json` file was implemented. This file defines which scripts and styles should be loaded for each specific page. By doing this, it becomes easier to manage resource paths and dependencies in one place, rather than updating multiple template files whenever changes are needed. This improves maintainability and scalability as the project grows.
-Let me know if you want this section adapted.
