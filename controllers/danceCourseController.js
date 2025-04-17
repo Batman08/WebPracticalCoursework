@@ -77,7 +77,7 @@ exports.post_booking = async (req, res) => {
     let userId = null;
     if (user) userId = user.userId;
 
-    const { danceClassId, name, email } = req.body;
+    const { name, email } = req.body;
 
     const danceCourse = await danceCourseModel.getDanceCourseById(req.params.danceCourseId);
     let danceClasses = await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId);
@@ -120,6 +120,56 @@ exports.post_booking = async (req, res) => {
                 errorMessage: `Failed to book class`
             });
         });
+    }
+
+    /* Enroll Course */
+    enrollCourse = async () => {
+        if (!user) {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses', {
+                pageTitle: 'Manage Courses',
+                bundleName: 'anon-booking',
+                danceCourses: danceCourseModel.getAllDanceCourses()
+            });
+            return;
+        }
+
+        const danceClasses = await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId);
+        const courseDanceClassIds = danceClasses.map(c => c._id);
+        const bookingReference = generateBookingReference();
+        
+        // Create an array of booking promises
+        const bookingPromises = courseDanceClassIds.map(id => {
+            return danceClassBookingModel.createDanceClassBooking(id, userId, name, email, bookingReference);
+        });
+        
+        Promise.all(bookingPromises)
+            .then(async () => {
+                // After all bookings complete, get the last class (or any one you want to show)
+                const lastDanceClassId = courseDanceClassIds[courseDanceClassIds.length - 1];
+                let bookedClass = await danceClassModel.getDanceClassById(lastDanceClassId);
+                if (bookedClass) {
+                    bookedClass.classDateTime = CommonHelpers.FormatDateTime(bookedClass.classDateTime);
+                }
+        
+                PageHelpers.RenderView(res, req, 'anon/course', {
+                    pageTitle: 'View Course',
+                    bundleName: 'anon-booking',
+                    danceCourse: danceCourse,
+                    danceClasses: danceClasses,
+                    enrolSuccessMessage: `Enrolment Confirmed!`,
+                    bookedClass: bookedClass,
+                    name: name
+                });
+            })
+            .catch((err) => {
+                PageHelpers.RenderView(res, req, 'anon/course', {
+                    pageTitle: 'View Course',
+                    bundleName: 'anon-booking',
+                    danceCourse: danceCourse,
+                    danceClasses: danceClasses,
+                    errorMessage: `Failed to enrol`
+                });
+            });
     }
 
     switch (req.body.action) {
