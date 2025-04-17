@@ -73,7 +73,7 @@ Password: Password123*
 - **User Booking History**: Users can view and manage a list of all their booked classes.
 - **Booking Cancellation**: Users can cancel their own class bookings directly.
 
---
+---
 
 ## Code Enhancements for Maintainability and User Experience
 
