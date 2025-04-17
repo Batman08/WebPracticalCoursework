@@ -6,14 +6,18 @@ const danceCourseModel = require('../models/danceCourseModel.js');
 const danceClassModel = require('../models/danceClassModel.js');
 const danceClassBookingModel = require('../models/danceClassBookingModel.js');
 
-//#region Index
+//#region static pages
 
 exports.index = async (req, res) => {
-    // console.log(dataTime.toLocaleString());
-
     PageHelpers.RenderView(res, req, 'index', {
         pageTitle: 'Welcome to the Dance Booking System',
         danceCourses: await danceCourseModel.getAllDanceCourses()
+    });
+};
+
+exports.about_page = async (req, res) => {
+    PageHelpers.RenderView(res, req, 'anon/about', {
+        pageTitle: 'About Us'
     });
 };
 
@@ -96,7 +100,7 @@ exports.post_booking = async (req, res) => {
     let userId = null;
     if (user) userId = user.userId;
 
-    const { name, email } = req.body;
+    const { danceClassId, name, email } = req.body;
 
     const danceCourse = await danceCourseModel.getDanceCourseById(req.params.danceCourseId);
     let danceClasses = await danceClassModel.getAllDanceClassesByCourseId(req.params.danceCourseId);
@@ -128,6 +132,7 @@ exports.post_booking = async (req, res) => {
                 danceClasses: danceClasses,
                 successMessage: `Class booked successfully`,
                 bookedClass: bookedClass,
+                bookingReference: bookingReference,
                 name: name
             });
         }).catch(async (err) => {

@@ -1,8 +1,14 @@
-<h1>Welcome to the Dance Course Booking System</h1>
-{{#user}}
-  <h3 class="mt-4 text-muted">Hi, {{name}}</h3>
-{{/user}}
-<p>Explore and book dance courses with ease!</p>
+<div class="text-center pb-5">
+  <h1>Welcome to RhythmWave Dance Booking</h1>
+
+  {{#user}}
+    <h3 class="mt-4 text-muted">Hi, {{name}}</h3>
+  {{/user}}
+</div>
+
+<h5 class="text-primary">
+  <i class="fa-solid fa-circle-info"></i> Explore our upcoming courses below.
+</h5>
 
 <div class="row g-4">
     {{#danceCourses}}
@@ -15,6 +21,9 @@
                   <p class="card-text text-muted mb-0">{{description}}</p>
                 </div>
               </div>
+                <div class="d-flex justify-content-end mt-auto p-3">
+                  <small class="text-muted">View more <i class="fa-solid fa-chevron-right align-middle"></i></small>
+                </div>
             </div>
           </a>
         </div>

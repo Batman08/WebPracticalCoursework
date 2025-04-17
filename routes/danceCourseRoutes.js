@@ -4,6 +4,7 @@ const controller = require('../controllers/danceCourseController.js');
 const auth = require('../auth/auth.js')
 
 router.get('/', controller.index);
+router.get('/about', controller.about_page);
 
 router.get('/course/:danceCourseId', controller.course_details_page);
 router.post('/course/:danceCourseId', auth.checkForUser, controller.post_booking);
