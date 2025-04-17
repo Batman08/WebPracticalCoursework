@@ -47,7 +47,7 @@ class DanceCourseDAO {
     getAllDanceCourses = () => {
         return new Promise((resolve, reject) => {
             this.db.find({})
-                .sort({ createdDateTime: -1 }) // Sort by createdDateTime in descending order (most recent first)
+                .sort({ title: 1 }) // Sort by title in ascending order
                 .exec((err, items) => err ? resolve([]) : resolve(items));
         });
     };

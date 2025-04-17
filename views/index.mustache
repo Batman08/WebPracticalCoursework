@@ -1,6 +1,8 @@
 <h1>Welcome to the Dance Course Booking System</h1>
+{{#user}}
+  <h3 class="mt-4 text-muted">Hi, {{name}}</h3>
+{{/user}}
 <p>Explore and book dance courses with ease!</p>
-<a href="/courses">View Courses</a>
 
 <div class="row g-4">
     {{#danceCourses}}
