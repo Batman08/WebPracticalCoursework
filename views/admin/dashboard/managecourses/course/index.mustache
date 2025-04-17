@@ -134,14 +134,8 @@
                     </div>
                 </div>
   
-              <!-- <div>
-                <h5 class="card-title mb-1">{{title}}</h5>
-                <p class="card-text text-muted mb-0">{{description}}</p>
-              </div>
-              -->
-  
                 <div class="text-end mt-3">
-                    <button class="btn btn-secondary shadow-sm" data-bs-toggle="modal" data-bs-target="#divCreateClassModal"><i class="fa-solid fa-users-gear"></i> Manage Bookings</button>
+                    <a href="/admin/dashboard/managecourses/course/bookings/{{_id}}" class="btn btn-secondary shadow-sm"><i class="fa-solid fa-users-gear"></i> Manage Bookings</a>
                     <button class="btn btn-primary shadow-sm" 
                             data-btnEditClassDetails
                             data-danceClassId="{{_id}}"
@@ -163,6 +157,7 @@
     {{>admin/dashboard/managecourses/course/partials/createClassModalPartial}}
     {{>admin/dashboard/managecourses/course/partials/editCourseDetailsModelPartial}}
     {{>admin/dashboard/managecourses/course/partials/editClassDetailsModalPartial}}
+    {{>admin/dashboard/managecourses/course/partials/manageBookingsModalPartial}}
 {{/danceCourse}}
 
 </div>

@@ -77,6 +77,14 @@ class DanceClassBookingDAO {
         });
     }
 
+    getClassBookingsByClassId = (danceClassId) => {
+        return new Promise((resolve, reject) => {
+            this.db.find({ danceClassId: danceClassId })
+                .sort({ name: 1 }) // Sort by name in ascending order
+                .exec((err, items) => err ? resolve([]) : resolve(items));
+        });
+    }
+
     //#endregion
 }
 

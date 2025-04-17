@@ -23,6 +23,8 @@ router.get('/admin/dashboard/managecourses', auth.authenticateToken, controller.
 router.post('/admin/dashboard/managecourses', auth.authenticateToken, controller.post_admin_create_course);
 router.get('/admin/dashboard/managecourses/course/:danceCourseId', auth.authenticateToken, controller.admin_manage_course_page);
 router.post('/admin/dashboard/managecourses/course/:danceCourseId', auth.authenticateToken, controller.post_admin_update_course);
+router.get('/admin/dashboard/managecourses/course/bookings/:danceClassId', auth.authenticateToken, controller.admin_manage_bookings_page);
+router.post('/admin/dashboard/managecourses/course/bookings/:danceClassId', auth.authenticateToken, controller.admin_post_remove_class_booking);
 
 router.use(function (req, res) {
     res.status(404);

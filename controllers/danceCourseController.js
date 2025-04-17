@@ -508,5 +508,27 @@ exports.post_admin_update_course = async (req, res) => {
 }
 
 
+exports.admin_manage_bookings_page = async (req, res) => {
+    PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/bookings', {
+        pageTitle: 'Manage Bookings',
+        participants: await danceClassBookingModel.getClassBookingsByClassId(req.params.danceClassId),
+    });
+};
+
+exports.admin_post_remove_class_booking = async (req, res) => {
+    danceClassBookingModel.deleteDanceClassBookingById(req.params.danceClassId).then(async () => {
+        PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/bookings', {
+            pageTitle: 'Manage Bookings',
+            participants: await danceClassBookingModel.getClassBookingsByClassId(req.params.danceClassId),
+            successMessage: `Booking removed successfully`
+        });
+    }).catch(async (err) => {
+        PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses/course/bookings', {
+            pageTitle: 'Manage Bookings',
+            participants: await danceClassBookingModel.getClassBookingsByClassId(req.params.danceClassId),
+            errorMessage: `Failed to remove bookign`
+        });
+    });
+};
 
 //#endregion

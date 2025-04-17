@@ -1,0 +1,41 @@
+<h1 class="text-center mb-5"><i class="fa-solid fa-users-gear"></i> Manage Bookings</h1>
+
+{{#successMessage}}
+  <div class="p-3 bg-success bg-opacity-10 border border-success border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
+      <i class="fa-solid fa-check"></i> {{successMessage}}
+  </div>
+{{/successMessage}}
+
+{{#errorMessage}}
+  <div class="p-3 bg-danger bg-opacity-10 border border-danger border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
+      <i class="fa-solid fa-xmark"></i> {{errorMessage}}
+  </div>
+{{/errorMessage}}
+
+ <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        {{#participants}}
+          <tr>
+            <th scope="row">{{name}}</th>
+            <td>{{email}}</td>
+            <td>
+                <form method="post" action="/admin/dashboard/managecourses/course/bookings/{{_id}}">
+                    <button type="submit" class="btn btn-danger">Remove booking</button>
+                </form>
+            </td>
+          </tr>
+        {{/participants}}
+
+    </tbody>
+</table>
+
+{{^participants}}
+    <div class="p-3 bg-info bg-opacity-10 border border-info border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm"><i class="fa-solid fa-ban"></i> No bookings available</div>
+{{/participants}}
