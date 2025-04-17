@@ -24,11 +24,6 @@ Live version: https://bilal-asghar-webcw-c8b500fdfb60.herokuapp.com/
    npm install
    ```
 
-    ```bash
-   npm install bcrypt body-parser express-session express gray-nedb mustache-express nedb pdfkit sqlite3
-
-   ```
-
 3. **Start the server**  
    ```bash
    node index.js
