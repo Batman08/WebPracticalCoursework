@@ -4,6 +4,9 @@ class DanceCourseDAO {
     constructor(dbFilePath) {
         if (dbFilePath) this.db = new Datastore({ filename: dbFilePath, autoload: true }); //embedded
         else this.db = new Datastore(); //in memory
+
+        // Auto-compact every 5 minutes
+        this.db.persistence.setAutocompactionInterval(5 * 60 * 1000);
     }
 
     //#region Commands
