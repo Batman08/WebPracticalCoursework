@@ -12,7 +12,7 @@ class UserDAO {
             password: passwordHash,
             name: name,
             email: email,
-            role: "Admin Organiser",
+            role: null,
             createdDateTime: new Date()
         };
 

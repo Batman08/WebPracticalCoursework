@@ -28,6 +28,24 @@ const authenticateToken = (req, res, next) => {
     });
 }
 
+const checkForAdmin = (req, res, next) => {
+    const token = req.cookies.jwt;
+    if (!token) return res.status(401).redirect("/login");
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).redirect("/login");
+
+         // Check if user has the "Admin Organiser" role
+         if (user.role !== "Admin Organiser") {
+            return res.status(403).send("Forbidden: Organiser access only.");
+        }
+
+        //user is authorized
+        req.user = user;
+        next();
+    });
+}
+
 const checkForUser = (req, res, next) => {
     const token = req.cookies.jwt;
     if (token) {
@@ -125,4 +143,4 @@ const isValidLogin = async (password, passwordHash) => {
 
 //#endregion
 
-module.exports = { authenticateToken, checkForUser, isLoggedIn, isValidUser, registerUser, handleUserLogin };
+module.exports = { authenticateToken, checkForAdmin, checkForUser, isLoggedIn, isValidUser, registerUser, handleUserLogin };

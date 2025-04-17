@@ -18,13 +18,13 @@ router.get('/login', auth.isLoggedIn, controller.show_login_page);
 router.post('/login', auth.handleUserLogin, controller.handle_login);
 router.post("/logout", controller.handle_logout);
 
-router.get('/admin/dashboard', auth.authenticateToken, controller.admin_dashboard_page);
-router.get('/admin/dashboard/managecourses', auth.authenticateToken, controller.admin_manage_courses_page);
-router.post('/admin/dashboard/managecourses', auth.authenticateToken, controller.post_admin_create_course);
-router.get('/admin/dashboard/managecourses/course/:danceCourseId', auth.authenticateToken, controller.admin_manage_course_page);
-router.post('/admin/dashboard/managecourses/course/:danceCourseId', auth.authenticateToken, controller.post_admin_update_course);
-router.get('/admin/dashboard/managecourses/course/bookings/:danceClassId', auth.authenticateToken, controller.admin_manage_bookings_page);
-router.post('/admin/dashboard/managecourses/course/bookings/:danceClassId', auth.authenticateToken, controller.admin_post_remove_class_booking);
+router.get('/admin/dashboard', auth.checkForAdmin, controller.admin_dashboard_page);
+router.get('/admin/dashboard/managecourses', auth.checkForAdmin, controller.admin_manage_courses_page);
+router.post('/admin/dashboard/managecourses', auth.checkForAdmin, controller.post_admin_create_course);
+router.get('/admin/dashboard/managecourses/course/:danceCourseId', auth.checkForAdmin, controller.admin_manage_course_page);
+router.post('/admin/dashboard/managecourses/course/:danceCourseId', auth.checkForAdmin, controller.post_admin_update_course);
+router.get('/admin/dashboard/managecourses/course/bookings/:danceClassId', auth.checkForAdmin, controller.admin_manage_bookings_page);
+router.post('/admin/dashboard/managecourses/course/bookings/:danceClassId', auth.checkForAdmin, controller.admin_post_remove_class_booking);
 
 router.use(function (req, res) {
     res.status(404);
