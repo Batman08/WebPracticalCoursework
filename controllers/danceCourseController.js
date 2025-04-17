@@ -1,6 +1,7 @@
 const CommonHelpers = require("../Helpers/CommonHelpers");
 const PageHelpers = require("../Helpers/PageHelpers");
 const auth = require('../auth/auth.js')
+const userModel = require('../models/userModel.js');
 const danceCourseModel = require('../models/danceCourseModel.js');
 const danceClassModel = require('../models/danceClassModel.js');
 const danceClassBookingModel = require('../models/danceClassBookingModel.js');
@@ -279,7 +280,7 @@ exports.post_view_bookings = async (req, res) => {
             );
             if (bookedDanceClasses.length > 0) bookedDanceClasses.forEach((danceClass) => danceClass.classDateTime = CommonHelpers.FormatDateTime(danceClass.classDateTime));
 
-            
+
             PageHelpers.RenderView(res, req, 'anon/bookings', {
                 pageTitle: 'Bookings',
                 bundleName: 'anon-booking',
@@ -341,6 +342,61 @@ exports.admin_dashboard_page = (req, res) => {
         pageTitle: 'Dashboard',
     });
 };
+
+exports.admin_manage_organisers_page = async (req, res) => {
+    PageHelpers.RenderView(res, req, 'admin/dashboard/manageorganisers', {
+        pageTitle: 'Manage Courses',
+        users: await userModel.getAllUsers()
+    });
+};
+
+exports.post_admin_manage_organisers = async (req, res) => {
+    addOrganiser = () => {
+        userModel.addUserOrganiserRole(req.body.userId).then(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/manageorganisers', {
+                pageTitle: 'Manage Courses',
+                users: await userModel.getAllUsers(),
+                successMessage: `Added organiser role successfully`
+            });
+        }).catch(async (err) => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/manageorganisers', {
+                pageTitle: 'Manage Courses',
+                users: await userModel.getAllUsers(),
+                errorMessage: `Failed to add organiser role`
+
+            });
+        });
+    }
+
+    removeOrganiser = () => {
+        userModel.deleteUserOrganiserRole(req.body.userId).then(async () => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/manageorganisers', {
+                pageTitle: 'Manage Courses',
+                users: await userModel.getAllUsers(),
+                successMessage: `Removed organiser role successfully`
+            });
+        }).catch(async (err) => {
+            PageHelpers.RenderView(res, req, 'admin/dashboard/manageorganisers', {
+                pageTitle: 'Manage Courses',
+                users: await userModel.getAllUsers(),
+                errorMessage: `Failed to remove organiser role`
+
+            });
+        });
+    }
+
+    switch (req.body.action) {
+        case 'add_organiser':
+            addOrganiser();
+            break;
+        case 'remove_organiser':
+            removeOrganiser();
+            break;
+        default:
+            break;
+    }
+};
+
 
 exports.admin_manage_courses_page = async (req, res) => {
     PageHelpers.RenderView(res, req, 'admin/dashboard/managecourses', {

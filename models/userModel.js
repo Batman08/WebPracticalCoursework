@@ -23,6 +23,19 @@ class UserDAO {
         });
     }
 
+    addUserOrganiserRole = (userId) => {
+        return new Promise((resolve, reject) => {
+            this.db.update({ _id: userId }, { $set: { role: "Admin Organiser" } }, {}, (err, numUpdated) => err ? reject(err) : resolve(numUpdated));
+        });
+    }
+
+    deleteUserOrganiserRole = (userId) => {
+        return new Promise((resolve, reject) => {
+            this.db.update({ _id: userId }, { $set: { role: null } }, {}, (err, numUpdated) => err ? reject(err) : resolve(numUpdated));
+        });
+    }
+
+
     lookup(username) {
         return new Promise((resolve, reject) => {
             this.db.find({ 'username': username }, (err, entries) => {
@@ -32,6 +45,15 @@ class UserDAO {
                     resolve(entries[0]);
                 }
             });
+        });
+    }
+
+
+    getAllUsers = () => {
+        return new Promise((resolve, reject) => {
+            this.db.find({})
+                .sort({ name: 1 }) // Sort by name in ascending order
+                .exec((err, items) => err ? resolve([]) : resolve(items));
         });
     }
 }

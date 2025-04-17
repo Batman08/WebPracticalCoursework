@@ -1,0 +1,61 @@
+<h1 class="text-center mb-5"><i class="fas fa-user-cog text-success"></i> Manage Organisers</h1>
+
+{{#successMessage}}
+  <div class="p-3 bg-success bg-opacity-10 border border-success border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
+      <i class="fa-solid fa-check"></i> {{successMessage}}
+  </div>
+{{/successMessage}}
+
+{{#errorMessage}}
+  <div class="p-3 bg-danger bg-opacity-10 border border-danger border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow mb-3">
+      <i class="fa-solid fa-xmark"></i> {{errorMessage}}
+  </div>
+{{/errorMessage}}
+
+ <table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Role</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        {{#users}}
+          <tr>
+            <th scope="row">{{name}}</th>
+            <td>{{role}}</td>
+            <td>
+                {{#role}}
+                    <form method="post" action="/admin/dashboard/manageorganisers">
+                        <!-- User Id -->
+                        <input type="hidden" name="userId" value="{{_id}}">
+
+                        <!-- Action Type -->
+                        <input type="hidden" name="action" value="remove_organiser">
+
+                        <button type="submit" class="btn btn-danger">Remove Organiser Role</button>
+                    </form>
+                {{/role}}
+
+                {{^role}}
+                    <form method="post" action="/admin/dashboard/manageorganisers">
+                        <!-- User Id -->
+                        <input type="hidden" name="userId" value="{{_id}}">
+
+                        <!-- Action Type -->
+                        <input type="hidden" name="action" value="add_organiser">
+
+                        <button type="submit" class="btn btn-success">Add Organiser Role</button>
+                    </form>
+                {{/role}}
+            </td>
+          </tr>
+        {{/users}}
+
+    </tbody>
+</table>
+
+{{^users}}
+    <div class="p-3 bg-info bg-opacity-10 border border-info border-2 border-top-0 border-bottom-0 border-end-0 rounded-end shadow-sm"><i class="fa-solid fa-ban"></i> No users available</div>
+{{/users}}

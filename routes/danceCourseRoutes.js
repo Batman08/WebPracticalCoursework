@@ -19,6 +19,8 @@ router.post('/login', auth.handleUserLogin, controller.handle_login);
 router.post("/logout", controller.handle_logout);
 
 router.get('/admin/dashboard', auth.checkForAdmin, controller.admin_dashboard_page);
+router.get('/admin/dashboard/manageorganisers', auth.checkForAdmin, controller.admin_manage_organisers_page);
+router.post('/admin/dashboard/manageorganisers', auth.checkForAdmin, controller.post_admin_manage_organisers);//
 router.get('/admin/dashboard/managecourses', auth.checkForAdmin, controller.admin_manage_courses_page);
 router.post('/admin/dashboard/managecourses', auth.checkForAdmin, controller.post_admin_create_course);
 router.get('/admin/dashboard/managecourses/course/:danceCourseId', auth.checkForAdmin, controller.admin_manage_course_page);
