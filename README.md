@@ -8,6 +8,9 @@ This is a full-stack web application using an MVC architecture that allows users
 
 Live version: https://bilal-asghar-webcw-c8b500fdfb60.herokuapp.com/
 
+Username: TestUser
+Password: Password123*
+
 ## Run the Site on your local machine
 
 ### Requirements

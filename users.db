@@ -1,2 +1,2 @@
 {"username":"PandoKicker","password":"$2b$10$9NuSD1mMkjFxDZmYe77nOOE3v9vApwpaBarhk2fKvMG0USjM.05ui","name":"John Doe","email":"organisergmail.com","role":"Admin Organiser","createdDateTime":{"$$date":1744307728999},"_id":"lz0pxTvlCRlftTv6"}
-{"username":"b","password":"$2b$10$L3p0ImX9eWRSetsJetkJaOPrEv5.uLGOdRRDM2jAo3CzvOqCV/icS","name":"Bilal","email":"billybonbastic8@gmail.com","role":null,"createdDateTime":{"$$date":1744878933469},"_id":"wk1ygN9Qc4V2BjfD"}
+{"username":"TestUser","password":"$2b$10$9NuSD1mMkjFxDZmYe77nOOE3v9vApwpaBarhk2fKvMG0USjM.05ui","name":"Test User","email":"organisergmail.com","role":"Admin Organiser","createdDateTime":{"$$date":1744307728999},"_id":"lz0pxTvlCRlftTv6"}
